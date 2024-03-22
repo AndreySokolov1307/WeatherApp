@@ -51,8 +51,8 @@ class CitySearchView: UIView {
             lineView.bottomAnchor.constraint(equalTo: doneButton.topAnchor, constant: -12),
             
             doneButton.heightAnchor.constraint(equalToConstant: 44),
-            doneButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-            doneButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            doneButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            doneButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             doneButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
         ])
     }

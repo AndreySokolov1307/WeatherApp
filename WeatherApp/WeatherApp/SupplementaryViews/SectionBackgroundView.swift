@@ -10,18 +10,7 @@ import UIKit
 class SectionBackgroundView: UICollectionReusableView {
     static let kindIdenifier = "SectionBackgroundView"
     
-    @UseAutolayout var imageView = UIImageView()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        configureView()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func configureView() {
+    override func didMoveToSuperview() {
         backgroundColor = .white
         layer.cornerRadius = 16
         layer.shadowRadius = 6
@@ -29,18 +18,5 @@ class SectionBackgroundView: UICollectionReusableView {
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowOpacity = 0.2
         layer.masksToBounds = false
-        addSubview(imageView)
-        imageView.image = Constants.images.rain
-        
-        NSLayoutConstraint.activate([
-            imageView.leftAnchor.constraint(equalTo: leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-        ])
-    }
-    
-    override func didMoveToSuperview() {
-   
     }
 }

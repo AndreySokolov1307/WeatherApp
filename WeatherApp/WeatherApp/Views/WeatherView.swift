@@ -60,7 +60,7 @@ class WeatherView: UIView {
             case .main:
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets = NSDirectionalEdgeInsets(top: 24, leading: 0, bottom: 24, trailing: 0)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0)
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.3))
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
@@ -68,9 +68,9 @@ class WeatherView: UIView {
                                                              count: 1)
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 24, leading: 24, bottom: 24, trailing: 24)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16)
                 let background = NSCollectionLayoutDecorationItem.background(elementKind: SectionBackgroundView.kindIdenifier)
-                background.contentInsets  = NSDirectionalEdgeInsets(top: 24, leading: 0, bottom: 24, trailing: 0)
+                background.contentInsets  = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0)
                 section.decorationItems = [background]
                 
                 return section
@@ -78,7 +78,7 @@ class WeatherView: UIView {
                 //MARK: - Main/Detail Sections Layout
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets.bottom = 24
+                item.contentInsets.bottom = 8
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.3))
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
@@ -86,7 +86,7 @@ class WeatherView: UIView {
                                                              count: 1)
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 24, bottom: 24, trailing: 24)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16)
                 
                 let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0) ,
                                                         heightDimension: .absolute(40))
@@ -94,7 +94,7 @@ class WeatherView: UIView {
                 section.boundarySupplementaryItems = [header]
                 
                 let background = NSCollectionLayoutDecorationItem.background(elementKind: SectionBackgroundView.kindIdenifier)
-                background.contentInsets  = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 24, trailing: 0)
+                background.contentInsets  = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0)
                 
                 section.decorationItems = [background]
                 
@@ -112,7 +112,7 @@ class WeatherView: UIView {
                                                                count: 1)
         
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 24, bottom: 24, trailing: 24)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 4, trailing: 16)
                 
                 let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0) ,
                                                         heightDimension: .absolute(40))

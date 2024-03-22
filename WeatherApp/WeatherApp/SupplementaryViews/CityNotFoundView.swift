@@ -11,8 +11,8 @@ class CityNotFoundView: UIView {
     
     @UseAutolayout private var label: UILabel = .style {
         $0.text = "Город не найден"
-        $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-        $0.textColor = .systemGray
+        $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        $0.textColor = Constants.colors.gray
     }
     
     override init(frame: CGRect) {
