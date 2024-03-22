@@ -11,6 +11,16 @@ enum CollectionViewSection: CaseIterable {
     case main
     case detail
     case sevenDays
+    
+    static func getSections(isLoading: Bool) -> [CollectionViewSection] {
+        var sections = allCases
+        if isLoading {
+            sections.removeLast()
+            return sections
+        } else {
+            return sections
+        }
+    }
 }
 
 class WeatherView: UIView {

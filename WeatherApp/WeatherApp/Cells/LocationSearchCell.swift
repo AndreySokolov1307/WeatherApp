@@ -48,17 +48,25 @@ class LocationSearchCell: UITableViewCell {
         seletionImageView.image = nil
     }
     
+    func animateSelectedBackgroundView() {
+        selectedBackgroundView?.backgroundColor = .systemGray5
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
+            self.selectedBackgroundView?.backgroundColor = .white
+        }
+    }
+    
     private func configureCell() {
         addSubview(vStack)
         addSubview(seletionImageView)
         vStack.addArrangedSubview(titleLabel)
         vStack.addArrangedSubview(infoLabel)
-        selectionStyle = .none
+        let selectedView = UIView()
+        selectedBackgroundView = selectedView
         
         NSLayoutConstraint.activate([
             vStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
             vStack.centerYAnchor.constraint(equalTo: centerYAnchor),
-            vStack.trailingAnchor.constraint(equalTo: seletionImageView.trailingAnchor, constant: -8),
+            vStack.trailingAnchor.constraint(equalTo: seletionImageView.leadingAnchor, constant: -8),
             
             seletionImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             seletionImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),

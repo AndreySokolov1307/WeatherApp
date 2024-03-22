@@ -30,9 +30,17 @@ class UserLocationCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func animateSelectedBackgroundView() {
+        selectedBackgroundView?.backgroundColor = .systemGray5
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
+            self.selectedBackgroundView?.backgroundColor = .white
+        }
+    }
+    
     private func configureCell() {
         addSubview(detailInfoView)
-        selectionStyle = .none
+        let selectedView = UIView()
+        selectedBackgroundView = selectedView
         
         NSLayoutConstraint.activate([
             detailInfoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),

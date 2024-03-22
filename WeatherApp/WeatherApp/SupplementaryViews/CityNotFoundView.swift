@@ -28,7 +28,7 @@ class CityNotFoundView: UIView {
         addSubview(label)
         
         NSLayoutConstraint.activate([
-            label.centerYAnchor.constraint(equalTo: centerYAnchor),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -200),
             label.centerXAnchor.constraint(equalTo: centerXAnchor),
         ])
     }

@@ -74,6 +74,8 @@ class CitySearchTableViewController: UIViewController {
         navigationItem.searchController = searchController
         navigationItem.searchController?.hidesNavigationBarDuringPresentation = false
         navigationItem.hidesSearchBarWhenScrolling = false
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "close"), style: .plain, target: self, action: #selector(didTapCloseButton))
+        navigationItem.rightBarButtonItem?.tintColor = .systemGray
     }
     
     private func setupTableView() {
@@ -87,6 +89,10 @@ class CitySearchTableViewController: UIViewController {
     
     private func setupDoneButton() {
         citySearchView.doneButton.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
+    }
+    
+    @objc private func didTapCloseButton() {
+        navigationController?.dismiss(animated: true)
     }
     
     @objc private func didTapDoneButton() {
@@ -113,9 +119,10 @@ class CitySearchTableViewController: UIViewController {
         switch locationManager.authorizationStatus {
         case .authorizedWhenInUse:
             //Do map stuff
-            guard let location = locationManager.location else { return }
-            delegate?.didSelectRegion(with: location)
-            navigationController?.dismiss(animated: true)
+            navigationController?.dismiss(animated: true) {
+                guard let location = self.locationManager.location else { return }
+                self.delegate?.didSelectRegion(with: location)
+            }
             break
         case .denied, .restricted:
             //Show allert with turn on instruction
@@ -185,9 +192,12 @@ extension CitySearchTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch sections[indexPath.section] {
         case .location:
+            let cell = tableView.cellForRow(at: indexPath) as! UserLocationCell
+            cell.animateSelectedBackgroundView()
             checkLocationAuthorization()
         case .searchResult:
             let cell = tableView.cellForRow(at: indexPath) as! LocationSearchCell
+            cell.animateSelectedBackgroundView()
             selectedCell = cell
             searchController.searchBar.resignFirstResponder()
             searchComplition = searchResults[indexPath.row]

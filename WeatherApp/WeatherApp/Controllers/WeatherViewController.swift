@@ -16,8 +16,13 @@ class WeatherViewController: UIViewController {
     private let navBarTitleView = NavBarTitleView()
     private let locationManager = CLLocationManager()
     private var weatherTask: Task<Void, Never>? = nil
+    private var sections: [CollectionViewSection] {
+        CollectionViewSection.getSections(isLoading: isLoading)
+    }
+    private var isLoading = true
     private var weather: Weaher? {
         didSet {
+            isLoading = false
             weatherView.collectionView.reloadData()
         }
     }
@@ -52,6 +57,8 @@ class WeatherViewController: UIViewController {
         weatherView.collectionView.register(DailyCell.self, forCellWithReuseIdentifier: DailyCell.reuseIdentifier)
         weatherView.collectionView.register(DetailCell.self, forCellWithReuseIdentifier: DetailCell.reuseIdentifier)
         weatherView.collectionView.register(MainCell.self, forCellWithReuseIdentifier: MainCell.reuseIdentifier)
+        weatherView.collectionView.register(LoadingDetailCell.self, forCellWithReuseIdentifier: LoadingDetailCell.reuseIdentifier)
+        weatherView.collectionView.register(LoadingMainCell.self, forCellWithReuseIdentifier: LoadingMainCell.self.reuseIdentifier)
         weatherView.collectionView.register(CollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionViewHeader.reuseIdentifier)
     }
     
@@ -115,36 +122,48 @@ class WeatherViewController: UIViewController {
 
 extension WeatherViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if let _ = weather {
-            return CollectionViewSection.allCases.count
-        } else {
-            return 0
+        sections.count
+    }
+    
+    
+    private func numberOfItems(in section: CollectionViewSection) -> Int {
+        switch section {
+        case .main: return 1
+        case .detail: return  1
+        case .sevenDays:
+            if let weather = weather {
+                return weather.daily.dates.count
+            } else {
+                return 0
+            }
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let weather = weather {
-            switch CollectionViewSection.allCases[section] {
-            case .main, .detail:
-                return 1
-            case .sevenDays:
-                return weather.daily.dates.count
-            }
-        } else {
-            return 0
-        }
+        return numberOfItems(in: sections[section])
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch CollectionViewSection.allCases[indexPath.section] {
+        switch sections[indexPath.section] {
         case .main:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCell.reuseIdentifier, for: indexPath) as! MainCell
-            cell.configure(with: weather!.current)
-            return cell
+            if isLoading {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LoadingMainCell.reuseIdentifier, for: indexPath) as! LoadingMainCell
+                return cell
+            } else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCell.reuseIdentifier, for: indexPath) as! MainCell
+                cell.configure(with: weather!.current)
+                return cell
+            }
         case .detail:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCell.reuseIdentifier, for: indexPath) as! DetailCell
-            cell.configure(with: weather!)
-            return cell
+            if isLoading {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LoadingDetailCell.reuseIdentifier, for: indexPath) as! LoadingDetailCell
+                print("isLoading")
+                return cell
+            } else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCell.reuseIdentifier, for: indexPath) as! DetailCell
+                cell.configure(with: weather!)
+                return cell
+            }
         case .sevenDays:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyCell.reuseIdentifier, for: indexPath) as! DailyCell
             let singleDay = SingleDay(date: (weather?.daily.dates[indexPath.row])!,
