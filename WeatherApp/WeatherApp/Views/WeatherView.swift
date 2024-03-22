@@ -38,7 +38,7 @@ class WeatherView: UIView {
     
     private func configureView() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = Constants.colors.lightGray
         backgroundColor = .systemBackground
         addSubview(collectionView)
         

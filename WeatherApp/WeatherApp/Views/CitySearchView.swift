@@ -13,7 +13,7 @@ class CitySearchView: UIView {
     
     @UseAutolayout var doneButton: UIButton = .style {
         $0.setTitle("Выбрать", for: .normal)
-        $0.backgroundColor = .systemBlue
+        $0.backgroundColor = Constants.colors.lightBlue
         $0.layer.cornerRadius = 12
         $0.clipsToBounds = true
     }
@@ -32,7 +32,7 @@ class CitySearchView: UIView {
     }
     
     private func configureView() {
-        backgroundColor = .systemBackground
+        backgroundColor = .white
         addSubview(tableView)
         addSubview(doneButton)
         addSubview(lineView)

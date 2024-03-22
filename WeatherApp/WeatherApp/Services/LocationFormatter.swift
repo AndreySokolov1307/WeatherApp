@@ -8,7 +8,8 @@
 import Foundation
 import CoreLocation
 
-class LocationService {
+class LocationFormatter {
+    static let shared = LocationFormatter()
     
     private let geocoder = CLGeocoder()
     
@@ -21,3 +22,4 @@ class LocationService {
         }
     }
 }
+

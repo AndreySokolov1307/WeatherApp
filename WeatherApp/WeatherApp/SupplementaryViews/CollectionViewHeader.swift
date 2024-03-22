@@ -10,9 +10,7 @@ import UIKit
 class CollectionViewHeader: UICollectionReusableView {
     static let reuseIdentifier = "HeaderIdentifier"
     
-    @UseAutolayout var label: UILabel = style {
-        $0.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
-    }
+    @UseAutolayout var label = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

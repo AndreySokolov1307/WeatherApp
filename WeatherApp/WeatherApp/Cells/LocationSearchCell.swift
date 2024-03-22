@@ -11,7 +11,7 @@ class LocationSearchCell: UITableViewCell {
     static let reuseIdentifier = "LocationSearchCell"
     
     @UseAutolayout var seletionImageView: UIImageView = .style {
-        $0.tintColor = .systemBlue
+        $0.tintColor = Constants.colors.lightBlue2
     }
     @UseAutolayout private var vStack: UIStackView = .style {
         $0.axis = .vertical
@@ -41,7 +41,9 @@ class LocationSearchCell: UITableViewCell {
     }
     
     func toSelectedState() {
-        seletionImageView.image = UIImage(systemName: "checkmark.circle.fill")
+        let config = UIImage.SymbolConfiguration(pointSize: 24)
+        let image = UIImage(systemName: "checkmark.circle.fill", withConfiguration: config)
+        seletionImageView.image = image
     }
     
     func toNormalState() {

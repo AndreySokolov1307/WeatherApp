@@ -18,7 +18,6 @@ class LoadingMainCell: UICollectionViewCell {
     }
     
     @UseAutolayout private var imageView: UIImageView = .style {
-        $0.image = UIImage(systemName: "sun.max")
         $0.tintColor = .systemGray
     }
     
@@ -41,10 +40,13 @@ class LoadingMainCell: UICollectionViewCell {
         addSubview(vStack)
         vStack.addArrangedSubview(imageView)
         vStack.addArrangedSubview(titleLabel)
+        let config = UIImage.SymbolConfiguration(pointSize: 72)
+        let image = UIImage(systemName: "sun.max", withConfiguration: config)
+        imageView.image = image
         
         NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalToConstant: 24),
-            imageView.widthAnchor.constraint(equalToConstant: 24),
+            imageView.heightAnchor.constraint(equalToConstant: 72),
+            imageView.widthAnchor.constraint(equalToConstant: 72),
             
             vStack.centerXAnchor.constraint(equalTo: centerXAnchor),
             vStack.centerYAnchor.constraint(equalTo: centerYAnchor),

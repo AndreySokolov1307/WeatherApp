@@ -15,6 +15,8 @@ protocol CitySearchTableViewControllerDelegate: AnyObject {
 class CitySearchTableViewController: UIViewController {
     
     private lazy var citySearchView = CitySearchView()
+    private var cachedSearchResults: [SearchResult] = []
+    private var selectedSearchResult: SearchResult? = nil
     private let locationManager: CLLocationManager
     private let searchController = UISearchController()
     private let searchCompleter: MKLocalSearchCompleter = {
@@ -23,10 +25,10 @@ class CitySearchTableViewController: UIViewController {
         completer.resultTypes = MKLocalSearchCompleter.ResultType([.address])
         return completer
     }()
-    private var searchResults = [MKLocalSearchCompletion]()
-    private var searchComplition: MKLocalSearchCompletion? = nil
-    private  var sections: [Section] {
-        Section.getSections(searchTerm: searchController.searchBar.text, isSearchResultsEmpty: searchResults.isEmpty)
+    private var searchCompletions = [MKLocalSearchCompletion]()
+    private var selectedSearchCompletion: MKLocalSearchCompletion? = nil
+    private var sections: [Section] {
+        Section.getSections(searchTerm: searchController.searchBar.text, isSearchResultsEmpty: searchCompletions.isEmpty)
     }
     private var selectedCell: LocationSearchCell? = nil {
         didSet {
@@ -63,6 +65,8 @@ class CitySearchTableViewController: UIViewController {
         setupNavBar()
         setupDoneButton()
         setupSearchCompleter()
+        SearchCache.shared.loadAllSearchPlaces()
+        cachedSearchResults = SearchCache.shared.searchResults
     }
     
     private func setupSearchController() {
@@ -96,16 +100,28 @@ class CitySearchTableViewController: UIViewController {
     }
     
     @objc private func didTapDoneButton() {
-        if let completion = searchComplition {
+        if let completion = selectedSearchCompletion {
+            SearchCache.shared.addAndSaveNewResult(SearchResult(title: completion.title, subtitle: completion.subtitle))
             let request = MKLocalSearch.Request(completion: completion)
             let search = MKLocalSearch(request: request)
-            search.start { [weak self] responce, error in
-                guard let responce = responce,
-                      let item = responce.mapItems.first,
+            Task {
+                let responce = try await search.start()
+                guard let item = responce.mapItems.first,
                       let location = item.placemark.location else { return }
-                self?.delegate?.didSelectRegion(with: location)
-                self?.navigationController?.dismiss(animated: true)
+                delegate?.didSelectRegion(with: location)
             }
+            navigationController?.dismiss(animated: true)
+        } else if let selectedSearchResult = selectedSearchResult {
+            let searchRequest = MKLocalSearch.Request()
+            searchRequest.naturalLanguageQuery = selectedSearchResult.description
+            let search = MKLocalSearch(request: searchRequest)
+            Task {
+                let responce = try await search.start()
+                guard let item = responce.mapItems.first,
+                      let location = item.placemark.location else { return }
+                delegate?.didSelectRegion(with: location)
+            }
+            navigationController?.dismiss(animated: true)
         } else {
             navigationController?.dismiss(animated: true)
         }
@@ -117,22 +133,17 @@ class CitySearchTableViewController: UIViewController {
     
     private func checkLocationAuthorization() {
         switch locationManager.authorizationStatus {
-        case .authorizedWhenInUse:
-            //Do map stuff
+        case .authorizedWhenInUse, .authorizedAlways:
             navigationController?.dismiss(animated: true) {
                 guard let location = self.locationManager.location else { return }
                 self.delegate?.didSelectRegion(with: location)
             }
-            break
-        case .denied, .restricted:
-            //Show allert with turn on instruction
-            break
+        case .denied:
+            presentConfirmAlert(title: "Ошибка", message: "Доступ к местоположению запрещен. Пожалуйста разрешите это в настройках")
+        case .restricted:
+            presentConfirmAlert(title: "Ошибка", message: "Доступ к местоположению ограничен родительским контролем")
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
-            break
-        case .authorizedAlways:
-            break
-        // if new cases are gonna be added in the future
         @unknown default:
             fatalError("add new cases")
         }
@@ -159,7 +170,12 @@ extension CitySearchTableViewController: UITableViewDataSource {
     private func numberOfRows(for section: Section) -> Int {
         switch section {
             case .location: return 1
-            case .searchResult: return  searchResults.count
+            case .searchResult:
+            if searchCompletions.isEmpty {
+                return cachedSearchResults.count
+            } else {
+                return searchCompletions.count
+            }
         }
     }
     
@@ -177,10 +193,16 @@ extension CitySearchTableViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: UserLocationCell.reuseIdentifier) as! UserLocationCell
             return cell
         case .searchResult:
-            let searchResult = searchResults[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: LocationSearchCell.reuseIdentifier) as! LocationSearchCell
-            cell.titleLabel.text = searchResult.title
-            cell.infoLabel.text = searchResult.subtitle
+            if searchCompletions.isEmpty {
+                let searchResult = cachedSearchResults[indexPath.row]
+                cell.titleLabel.text = searchResult.title
+                cell.infoLabel.text = searchResult.subtitle
+            } else {
+                let searchResult = searchCompletions[indexPath.row]
+                cell.titleLabel.text = searchResult.title
+                cell.infoLabel.text = searchResult.subtitle
+            }
             return cell
         }
     }
@@ -200,7 +222,13 @@ extension CitySearchTableViewController: UITableViewDelegate {
             cell.animateSelectedBackgroundView()
             selectedCell = cell
             searchController.searchBar.resignFirstResponder()
-            searchComplition = searchResults[indexPath.row]
+            if searchCompletions.isEmpty {
+                selectedSearchCompletion = nil
+                selectedSearchResult = cachedSearchResults[indexPath.row]
+            } else {
+                selectedSearchResult = nil
+                selectedSearchCompletion = searchCompletions[indexPath.row]
+            }
         }
     }
     
@@ -213,11 +241,11 @@ extension CitySearchTableViewController: UITableViewDelegate {
 
 extension CitySearchTableViewController: MKLocalSearchCompleterDelegate {
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        searchResults = completer.results
+        searchCompletions = completer.results
         selectedCell = nil
         if let text = searchController.searchBar.text,
            text.count > 2 {
-            citySearchView.tableView.backgroundView?.isHidden = !searchResults.isEmpty
+            citySearchView.tableView.backgroundView?.isHidden = !searchCompletions.isEmpty
         }
         citySearchView.tableView.reloadData()
     }
@@ -229,7 +257,7 @@ extension CitySearchTableViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchCompleter.queryFragment = searchText
         if searchText.isEmpty {
-            searchResults = []
+            searchCompletions = []
             selectedCell = nil
             citySearchView.tableView.reloadData()
         }

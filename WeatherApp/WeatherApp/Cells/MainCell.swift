@@ -21,11 +21,13 @@ class MainCell: UICollectionViewCell {
     }
     
     let weatherCodeLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        $0.font = UIFont.systemFont(ofSize: 20, weight: .light)
+        $0.textColor = Constants.colors.gray
     }
     
     let apparentTemperatureLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        $0.font = UIFont.systemFont(ofSize: 20, weight: .light)
+        $0.textColor = Constants.colors.gray
     }
     
     override init(frame: CGRect) {

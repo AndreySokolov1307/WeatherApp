@@ -12,7 +12,7 @@ class UserLocationCell: UITableViewCell {
     
     @UseAutolayout private var detailInfoView: DetailInfoView = .style {
         $0.imageView.image = UIImage(systemName: "location")
-        $0.imageView.tintColor = .systemBlue
+        $0.imageView.tintColor = Constants.colors.lightBlue
         $0.titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         $0.titleLabel.textColor = .black
         $0.titleLabel.text = "Моя локация"
@@ -31,7 +31,7 @@ class UserLocationCell: UITableViewCell {
     }
     
     func animateSelectedBackgroundView() {
-        selectedBackgroundView?.backgroundColor = .systemGray5
+        selectedBackgroundView?.backgroundColor = Constants.colors.lightGray
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
             self.selectedBackgroundView?.backgroundColor = .white
         }

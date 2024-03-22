@@ -22,7 +22,7 @@ class DetailInfoView: UIView {
     
     let titleLabel: UILabel = .style {
         $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        $0.textColor = .systemGray
+        $0.textColor = Constants.colors.gray
     }
     
     let infoLabel: UILabel = .style {

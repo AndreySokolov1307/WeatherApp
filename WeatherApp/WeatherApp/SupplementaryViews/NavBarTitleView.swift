@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class NavBarTitleView : UIView {
     
@@ -13,10 +14,13 @@ class NavBarTitleView : UIView {
         $0.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
     }
     
-    @UseAutolayout private var imageView: UIImageView = .style {
+    @UseAutolayout private var chevronImageView: UIImageView = .style {
         $0.image = UIImage(systemName: "chevron.down")
         $0.tintColor = .systemGray
+        $0.isHidden = true
     }
+    
+    @UseAutolayout var weatherImageView = UIImageView()
     
     @UseAutolayout private var hStack: UIStackView = .style {
         $0.axis = .horizontal
@@ -34,10 +38,19 @@ class NavBarTitleView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(with location: CLLocation, weather: Weaher?) async throws {
+        titleLabel.text = try await LocationFormatter.shared.cityName(location: location)
+        weatherImageView.image = weather?.current.weatherImage
+        chevronImageView.isHidden = false
+    }
+    
     private func configureView() {
         addSubview(hStack)
+        hStack.addArrangedSubview(weatherImageView)
         hStack.addArrangedSubview(titleLabel)
-        hStack.addArrangedSubview(imageView)
+        hStack.addArrangedSubview(chevronImageView)
+        hStack.setCustomSpacing(6, after: weatherImageView)
+        weatherImageView.contentMode = .scaleAspectFit
         
         NSLayoutConstraint.activate([
             hStack.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -45,8 +58,11 @@ class NavBarTitleView : UIView {
             hStack.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1),
             hStack.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 1),
             
-            imageView.heightAnchor.constraint(equalToConstant: 16),
-            imageView.widthAnchor.constraint(equalToConstant: 16),
+            weatherImageView.widthAnchor.constraint(equalToConstant: 24),
+            weatherImageView.widthAnchor.constraint(equalToConstant: 24),
+            
+            chevronImageView.heightAnchor.constraint(equalToConstant: 16),
+            chevronImageView.widthAnchor.constraint(equalToConstant: 16),
         ])
     }
 }

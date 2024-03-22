@@ -5,7 +5,7 @@
 //  Created by Андрей Соколов on 20.03.2024.
 //
 
-import Foundation
+import UIKit
 
 struct Weaher: Codable, Hashable {
     let current: CurrentWeather
@@ -54,6 +54,10 @@ struct CurrentWeather: Codable, Hashable {
     var pressureString: String {
         return WeatherFormatter.shared.pressureString(surfacePressure)
     }
+    
+    var weatherImage: UIImage? {
+        return WeatherFormatter.shared.weatherCodeImage(from: weatherCode)
+    }
 }
 
 struct DailyWeather: Codable, Hashable {
@@ -79,9 +83,3 @@ struct DailyWeather: Codable, Hashable {
     }
 }
 
-struct SingleDay {
-    let date: String
-    let weatherCode: Int
-    let temperaturesMax: Double
-    let temperaturesMin: Double
-}

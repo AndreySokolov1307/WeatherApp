@@ -12,7 +12,6 @@ class WeatherViewController: UIViewController {
     
     private lazy var weatherView = WeatherView()
     private lazy var networkService = NetworkService()
-    private lazy var locationService = LocationService()
     private let navBarTitleView = NavBarTitleView()
     private let locationManager = CLLocationManager()
     private var weatherTask: Task<Void, Never>? = nil
@@ -20,6 +19,7 @@ class WeatherViewController: UIViewController {
         CollectionViewSection.getSections(isLoading: isLoading)
     }
     private var isLoading = true
+    private let userHaveSeenDeniedAlert = UserDefaults.standard.bool(forKey: "haveSeenDeniedAlert")
     private var weather: Weaher? {
         didSet {
             isLoading = false
@@ -72,7 +72,25 @@ class WeatherViewController: UIViewController {
         weatherTask = Task {
             do {
                 weather = try await networkService.fetchWeather(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-                navBarTitleView.titleLabel.text = try await locationService.cityName(location: location)
+                try await navBarTitleView.configure(with: location, weather: weather)
+            } catch let error as NSError where error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled {
+                // ignore cancellation errors
+            } catch {
+                print(error)
+            }
+            weatherTask = nil
+        }
+    }
+    
+    private func updateUIWithMoscowLocation() {
+        weatherTask?.cancel()
+        weatherTask = Task {
+            do {
+                let location = CLLocation(latitude: 55.7512, longitude: 37.6156)
+                weather = try await networkService.fetchWeather(latitude: 55.7512, longitude:  37.6156)
+                try await navBarTitleView.configure(with: location, weather: weather)
+            } catch let error as NSError where error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled {
+                // ignore cancellation errors
             } catch {
                 print(error)
             }
@@ -93,27 +111,34 @@ class WeatherViewController: UIViewController {
     
     private func checkLocationAuthorization() {
         switch locationManager.authorizationStatus {
-        case .authorizedWhenInUse:
-            //Do map stuff
+        case .authorizedWhenInUse, .authorizedAlways:
             guard let location = locationManager.location else { return }
             weatherTask = Task {
                 updateUI(with: location)
             }
-            break
         case .denied:
-            //Show allert with turn on instruction
-            break
+            handleLackOfUserLocation(for: .denied)
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
             break
         case .restricted:
-            //Show allert that user cant change that app status
-            break
-        case .authorizedAlways:
-            break
-        // if new cases are gonna be added in the future
+            handleLackOfUserLocation(for: .restricted)
         @unknown default:
             fatalError("add new cases")
+        }
+    }
+    
+    private func handleLackOfUserLocation(for status: CLAuthorizationStatus) {
+        if userHaveSeenDeniedAlert {
+            updateUIWithMoscowLocation()
+        } else {
+            updateUIWithMoscowLocation()
+            if status == .restricted {
+                presentConfirmAlert(title: "Ошибка", message: "Доступ к местоположению ограничен родительским контролем")
+            } else {
+                presentConfirmAlert(title: "Ошибка", message: "Доступ к местоположению запрещен. Пожалуйста разрешите это в настройках")
+            }
+            UserDefaults.standard.set(true, forKey: "haveSeenDeniedAlert")
         }
     }
 }
@@ -124,7 +149,6 @@ extension WeatherViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         sections.count
     }
-    
     
     private func numberOfItems(in section: CollectionViewSection) -> Int {
         switch section {
@@ -157,7 +181,6 @@ extension WeatherViewController: UICollectionViewDataSource {
         case .detail:
             if isLoading {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LoadingDetailCell.reuseIdentifier, for: indexPath) as! LoadingDetailCell
-                print("isLoading")
                 return cell
             } else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCell.reuseIdentifier, for: indexPath) as! DetailCell
@@ -186,8 +209,10 @@ extension WeatherViewController: UICollectionViewDelegate {
         switch CollectionViewSection.allCases[indexPath.section] {
         case .detail:
             header.label.text = "Сейчас"
+            header.label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         case .sevenDays:
             header.label.text = "Прогноз на 7 дней"
+            header.label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         case .main:
             break
         }
@@ -203,7 +228,9 @@ extension WeatherViewController: CitySearchTableViewControllerDelegate {
         weatherTask = Task {
             do {
                 weather = try await networkService.fetchWeather(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-                navBarTitleView.titleLabel.text = try await locationService.cityName(location: location)
+                try await navBarTitleView.configure(with: location, weather: weather)
+            } catch let error as NSError where error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled {
+                // ignore cancellation errors
             } catch {
                 print(error)
             }

@@ -20,7 +20,7 @@ class DailyCell: UICollectionViewCell {
     @UseAutolayout private var hStack: UIStackView  = .style {
         $0.axis = .horizontal
         $0.spacing = 24
-        $0.distribution = .equalSpacing
+        $0.distribution = .equalCentering
         $0.alignment = .fill
     }
     
@@ -30,14 +30,15 @@ class DailyCell: UICollectionViewCell {
     
     @UseAutolayout var dateLabel: UILabel = .style {
         $0.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-        $0.textColor = .systemGray
+        $0.textColor = Constants.colors.gray
+        
     }
     
-    @UseAutolayout var weatherImageView = UIImageView()
+    let weatherImageView = UIImageView()
     
     let minTemperatureLabel: UILabel = .style {
         $0.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        $0.textColor = .systemGray
+        $0.textColor = Constants.colors.gray
         $0.textAlignment = .right
     }
     
@@ -63,11 +64,9 @@ class DailyCell: UICollectionViewCell {
         hStack.addArrangedSubview(weatherImageView)
         hStack.addArrangedSubview(maxTemperatureLabel)
         hStack.addArrangedSubview(minTemperatureLabel)
+        weatherImageView.contentMode = .scaleAspectFit
         
         NSLayoutConstraint.activate([
-            weatherImageView.heightAnchor.constraint(equalToConstant: 24),
-            weatherImageView.widthAnchor.constraint(equalToConstant: 24),
-            
             minTemperatureLabel.widthAnchor.constraint(equalToConstant: 35),
             maxTemperatureLabel.widthAnchor.constraint(equalToConstant: 35),
             
@@ -85,7 +84,6 @@ class DailyCell: UICollectionViewCell {
         dateLabel.text = CustomDateFormatter.shared.formattedString(from: singleDay.date)
         maxTemperatureLabel.text = WeatherFormatter.shared.temperatureString(from: singleDay.temperaturesMax)
         minTemperatureLabel.text =  WeatherFormatter.shared.temperatureString(from: singleDay.temperaturesMin)
-        weatherImageView.image = UIImage(systemName: "sun")
-        
+        weatherImageView.image = WeatherFormatter.shared.weatherCodeImage(from: singleDay.weatherCode)
     }
 }
