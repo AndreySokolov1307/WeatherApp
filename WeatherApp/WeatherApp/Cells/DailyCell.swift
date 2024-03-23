@@ -8,28 +8,28 @@
 import UIKit
 
 class DailyCell: UICollectionViewCell {
-    static let reuseIdentifier = "DailyCell"
+    static let reuseIdentifier = Constants.strings.dailyCellReuseIdentifier
     
     @UseAutolayout private var vStack: UIStackView = .style {
         $0.axis = .vertical
-        $0.spacing = 4
+        $0.spacing = Constants.layout.dailyCellVStackSpacing
         $0.distribution = .fillEqually
         $0.alignment = .fill
     }
     
     @UseAutolayout private var hStack: UIStackView  = .style {
         $0.axis = .horizontal
-        $0.spacing = 24
+        $0.spacing = Constants.layout.dailyCellHStackSpacing
         $0.distribution = .equalCentering
         $0.alignment = .fill
     }
     
     @UseAutolayout var dayOfTheWeekLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        $0.font = Constants.fonts.dailyCellDayOfTheWeekLabel
     }
     
     @UseAutolayout var dateLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        $0.font = Constants.fonts.dailyCellDateLabel
         $0.textColor = Constants.colors.gray
         
     }
@@ -37,13 +37,13 @@ class DailyCell: UICollectionViewCell {
     let weatherImageView = UIImageView()
     
     let minTemperatureLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        $0.font = Constants.fonts.dailyCellMinTempLabel
         $0.textColor = Constants.colors.gray
         $0.textAlignment = .right
     }
     
     let maxTemperatureLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        $0.font = Constants.fonts.dailyCellMaxTempLabel
         $0.textAlignment = .right
     }
     
@@ -67,8 +67,8 @@ class DailyCell: UICollectionViewCell {
         weatherImageView.contentMode = .scaleAspectFit
         
         NSLayoutConstraint.activate([
-            minTemperatureLabel.widthAnchor.constraint(equalToConstant: 35),
-            maxTemperatureLabel.widthAnchor.constraint(equalToConstant: 35),
+            minTemperatureLabel.widthAnchor.constraint(equalToConstant: Constants.layout.dailyCellMinTempLabelWidth),
+            maxTemperatureLabel.widthAnchor.constraint(equalToConstant: Constants.layout.dailyCellMaxTempLabelWidth),
             
             vStack.leadingAnchor.constraint(equalTo: leadingAnchor),
             vStack.centerYAnchor.constraint(equalTo: centerYAnchor),

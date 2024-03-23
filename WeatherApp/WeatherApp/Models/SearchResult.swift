@@ -12,6 +12,6 @@ struct SearchResult: Codable {
     let subtitle: String
     
     var description: String {
-        return title + " " + subtitle
+        return title + Constants.strings.space + subtitle
     }
 }

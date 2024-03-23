@@ -10,13 +10,13 @@ import UIKit
 class LoadingDetailView: UIView {
     
     @UseAutolayout private var titleView: UIView = .style {
-        $0.layer.cornerRadius = 8
+        $0.layer.cornerRadius = Constants.layout.loadingDetailViewTitleCornerRadius
         $0.backgroundColor = .systemGray5
         $0.layer.masksToBounds = true
     }
     
     @UseAutolayout private var subtitleView: UIView = .style {
-        $0.layer.cornerRadius = 6
+        $0.layer.cornerRadius = Constants.layout.loadingDetailViewSubtitleCornerRaduis
         $0.backgroundColor = .systemGray5
         $0.layer.masksToBounds = true
     }
@@ -35,15 +35,15 @@ class LoadingDetailView: UIView {
         addSubview(subtitleView)
         
         NSLayoutConstraint.activate([
-            titleView.heightAnchor.constraint(equalToConstant: 16),
-            titleView.widthAnchor.constraint(equalToConstant: 144),
+            titleView.heightAnchor.constraint(equalToConstant: Constants.layout.loadingDetailViewTitleHeight),
+            titleView.widthAnchor.constraint(equalToConstant: Constants.layout.loadingDetailViewTitleWidth),
             titleView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            titleView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -16),
+            titleView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Constants.layout.loadingDetailViewTitleCenterY),
             
-            subtitleView.heightAnchor.constraint(equalToConstant: 12),
-            subtitleView.widthAnchor.constraint(equalToConstant: 80),
+            subtitleView.heightAnchor.constraint(equalToConstant: Constants.layout.loadingDetailViewSubtitleHeight),
+            subtitleView.widthAnchor.constraint(equalToConstant: Constants.layout.loadingDetailViewSubtitleWidth),
             subtitleView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            subtitleView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 12),
+            subtitleView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Constants.layout.loadingDetailViewSubtitleCenterY),
         ])
     }
 }

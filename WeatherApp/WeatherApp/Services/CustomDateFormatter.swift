@@ -17,33 +17,33 @@ class CustomDateFormatter {
     }()
     
     func weekDayNumber(from string: String) -> Int {
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = Constants.strings.standartDateFormat
         if let date = dateFormatter.date(from: string) {
             let weekDay = Calendar.current.component(.weekday, from: date)
             return weekDay
         } else {
-            return 2
+            return Constants.numbers.weekDayError
         }
     }
     
     func dayOfTheWeek(from string: String) -> String {
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = Constants.strings.standartDateFormat
         if let date = dateFormatter.date(from: string) {
             let weekDay = Calendar.current.component(.weekday, from: date)
-            dateFormatter.dateFormat = "EEEE"
+            dateFormatter.dateFormat = Constants.strings.dayDateFormat
             return dateFormatter.string(from: date)
         } else {
-            return "День недели"
+            return Constants.strings.dayError
         }
     }
     
     func formattedString(from string: String) -> String {
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = Constants.strings.standartDateFormat
         if let date = dateFormatter.date(from: string) {
-            dateFormatter.dateFormat = "MMMM d"
+            dateFormatter.dateFormat = Constants.strings.monthDayDateFormat
             return dateFormatter.string(from: date)
         } else {
-            return "Месяц число"
+            return Constants.strings.monthError
         }
     }
 }

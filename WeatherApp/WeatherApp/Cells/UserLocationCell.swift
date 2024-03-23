@@ -8,17 +8,17 @@
 import UIKit
 
 class UserLocationCell: UITableViewCell {
-    static let reuseIdentifier = "UserLocationCell"
+    static let reuseIdentifier = Constants.strings.userLocationCellReuseIdentifier
     
     @UseAutolayout private var detailInfoView: DetailInfoView = .style {
-        $0.imageView.image = UIImage(systemName: "location")
+        $0.imageView.image = Constants.images.location
         $0.imageView.tintColor = Constants.colors.lightBlue
-        $0.titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        $0.titleLabel.font = Constants.fonts.userLocationCellTitleLabel
         $0.titleLabel.textColor = .black
-        $0.titleLabel.text = "Моя локация"
-        $0.infoLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        $0.titleLabel.text = Constants.strings.userLocationCellTitle
+        $0.infoLabel.font = Constants.fonts.userLocationCellInfoLabel
         $0.infoLabel.textColor = .systemGray
-        $0.infoLabel.text = "Получи точный прогноз по локации"
+        $0.infoLabel.text = Constants.strings.userLocationCellInfo
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -32,7 +32,7 @@ class UserLocationCell: UITableViewCell {
     
     func animateSelectedBackgroundView() {
         selectedBackgroundView?.backgroundColor = Constants.colors.lightGray
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
+        UIView.animate(withDuration: Constants.numbers.userLocationCellAnimationDuration, delay: Constants.numbers.userLocationCellAnimationDelay, options: .curveEaseIn) {
             self.selectedBackgroundView?.backgroundColor = .white
         }
     }
@@ -43,8 +43,8 @@ class UserLocationCell: UITableViewCell {
         selectedBackgroundView = selectedView
         
         NSLayoutConstraint.activate([
-            detailInfoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
-            detailInfoView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            detailInfoView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.layout.userLocationCellDetailInfoviewLeading),
+            detailInfoView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.layout.userLocationCellDetailInfoviewTrailing),
             detailInfoView.topAnchor.constraint(equalTo: topAnchor),
             detailInfoView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])

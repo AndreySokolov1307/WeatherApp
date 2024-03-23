@@ -25,7 +25,7 @@ class WeatherFormatter {
     
     func windInfoString(direction: Int, speed: Double) -> String {
         let value = Int(Double(direction) / 22.5 + 0.5)
-        let directions = ["C", "С-СВ", "СВ", "В-СВ", "В", "В-ЮВ", "ЮВ", "Ю-ЮВ", "Ю", "Ю-ЮЗ", "ЮЗ", "З-ЮЗ", "З", "З-СЗ", "СЗ", "С-СЗ"]
+        let directions = Constants.strings.directions
         let windDirection = directions[value % 16]
         let roundedSpeed = Int(speed.rounded(.toNearestOrEven))
         let string = "\(roundedSpeed) м/с \(windDirection)"
@@ -37,7 +37,7 @@ class WeatherFormatter {
     }
     
     func pressureString(_ pressure: Double) -> String {
-        let mmHg = pressure * 0.7500638
+        let mmHg = pressure * Constants.numbers.pressureCoef
         let roundedPressure = Int(mmHg.rounded(.toNearestOrEven))
         return "\(roundedPressure) мм рт.ст."
     }
@@ -46,7 +46,7 @@ class WeatherFormatter {
         if let myWeatherCode = WeatherCode(rawValue: weatherCode) {
             return myWeatherCode.title
         } else {
-            return "Вот это погода!"
+            return Constants.strings.weatherCodeError
         }
     }
     

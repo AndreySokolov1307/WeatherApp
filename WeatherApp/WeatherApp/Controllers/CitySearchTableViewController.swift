@@ -74,11 +74,11 @@ class CitySearchTableViewController: UIViewController {
     }
     
     private func setupNavBar() {
-        title = "Регион"
+        title = Constants.strings.citySearchTitle
         navigationItem.searchController = searchController
         navigationItem.searchController?.hidesNavigationBarDuringPresentation = false
         navigationItem.hidesSearchBarWhenScrolling = false
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "close"), style: .plain, target: self, action: #selector(didTapCloseButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: Constants.images.close, style: .plain, target: self, action: #selector(didTapCloseButton))
         navigationItem.rightBarButtonItem?.tintColor = .systemGray
     }
     
@@ -139,9 +139,9 @@ class CitySearchTableViewController: UIViewController {
                 self.delegate?.didSelectRegion(with: location)
             }
         case .denied:
-            presentConfirmAlert(title: "Ошибка", message: "Доступ к местоположению запрещен. Пожалуйста разрешите это в настройках")
+            presentConfirmAlert(title: Constants.strings.error, message: Constants.strings.deniedMessage)
         case .restricted:
-            presentConfirmAlert(title: "Ошибка", message: "Доступ к местоположению ограничен родительским контролем")
+            presentConfirmAlert(title: Constants.strings.error, message: Constants.strings.restrictedMessage)
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         @unknown default:
@@ -159,7 +159,7 @@ extension CitySearchTableViewController: UITableViewDataSource {
         static func getSections(searchTerm: String?, isSearchResultsEmpty: Bool) -> [Section] {
             if let searchTerm = searchTerm,
                isSearchResultsEmpty,
-               searchTerm.count > 1 {
+               searchTerm.count > Constants.numbers.maxSearchTermForSections {
                 return []
             } else {
                 return allCases
@@ -169,7 +169,7 @@ extension CitySearchTableViewController: UITableViewDataSource {
     
     private func numberOfRows(for section: Section) -> Int {
         switch section {
-            case .location: return 1
+        case .location: return Constants.layout.numberOfRowsLocationSection
             case .searchResult:
             if searchCompletions.isEmpty {
                 return cachedSearchResults.count
@@ -233,7 +233,7 @@ extension CitySearchTableViewController: UITableViewDelegate {
     }
     
      func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+         return Constants.layout.heightForTableViewRow
     }
 }
 
@@ -244,7 +244,7 @@ extension CitySearchTableViewController: MKLocalSearchCompleterDelegate {
         searchCompletions = completer.results
         selectedCell = nil
         if let text = searchController.searchBar.text,
-           text.count > 2 {
+           text.count > Constants.numbers.maxTextCount {
             citySearchView.tableView.backgroundView?.isHidden = !searchCompletions.isEmpty
         }
         citySearchView.tableView.reloadData()
@@ -261,7 +261,7 @@ extension CitySearchTableViewController: UISearchBarDelegate {
             selectedCell = nil
             citySearchView.tableView.reloadData()
         }
-        if searchText.count < 2 {
+        if searchText.count < Constants.numbers.maxSearchTextCount {
             citySearchView.tableView.backgroundView?.isHidden = true
         }
     }

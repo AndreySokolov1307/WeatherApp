@@ -12,7 +12,7 @@ extension UIViewController {
         let confirmAlert = UIAlertController(title: title,
                                              message: message,
                                              preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "OK", style: .default)
+        let confirmAction = UIAlertAction(title: Constants.strings.ok, style: .default)
         confirmAlert.addAction(confirmAction)
         self.present(confirmAlert, animated: true)
     }

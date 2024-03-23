@@ -12,9 +12,9 @@ class CitySearchView: UIView {
     @UseAutolayout var tableView = UITableView()
     
     @UseAutolayout var doneButton: UIButton = .style {
-        $0.setTitle("Выбрать", for: .normal)
+        $0.setTitle(Constants.strings.doneButtonTitle, for: .normal)
         $0.backgroundColor = Constants.colors.lightBlue
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = Constants.layout.doneButtonCornerRadius
         $0.clipsToBounds = true
     }
     
@@ -45,15 +45,15 @@ class CitySearchView: UIView {
             tableView.topAnchor.constraint(equalTo: topAnchor),
             tableView.bottomAnchor.constraint(equalTo: lineView.topAnchor),
             
-            lineView.heightAnchor.constraint(equalToConstant: 0.5),
+            lineView.heightAnchor.constraint(equalToConstant: Constants.layout.lineViewHeight),
             lineView.leadingAnchor.constraint(equalTo: leadingAnchor),
             lineView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            lineView.bottomAnchor.constraint(equalTo: doneButton.topAnchor, constant: -12),
+            lineView.bottomAnchor.constraint(equalTo: doneButton.topAnchor, constant: Constants.layout.lineViewBottom),
             
-            doneButton.heightAnchor.constraint(equalToConstant: 44),
-            doneButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            doneButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            doneButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
+            doneButton.heightAnchor.constraint(equalToConstant: Constants.layout.doneButtonHeight),
+            doneButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.layout.doneButtolLeading),
+            doneButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.layout.doneButtonTrailing),
+            doneButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: Constants.layout.doneButtonBottom),
         ])
     }
 }

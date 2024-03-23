@@ -15,20 +15,16 @@ enum NetworkError: Error {
 
 class NetworkService {
     
-    private let baseURLString = "https://api.open-meteo.com/v1/forecast"
+    private let baseURLString = Constants.strings.baseURLString
     
-    var baseQuery: [String : String] = [
-        "current" : "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m",
-        "daily" : "weather_code,temperature_2m_max,temperature_2m_min,uv_index_max",
-        "timezone" : "auto"
-    ]
+    var baseQuery = Constants.strings.baseQuery
     
     func fetchWeather(latitude: Double, longitude: Double) async throws -> Weaher {
         guard var urlComponents =  URLComponents(string: baseURLString) else {
             throw NetworkError.invalidURLComponents
         }
-        baseQuery["latitude"] = String(latitude)
-        baseQuery["longitude"] = String(longitude)
+        baseQuery[Constants.strings.latitude] = String(latitude)
+        baseQuery[Constants.strings.longitude] = String(longitude)
         urlComponents.queryItems = baseQuery.map { URLQueryItem(name: $0.key, value: $0.value) }
         
         guard let url = urlComponents.url else {
@@ -37,7 +33,7 @@ class NetworkService {
         
         let (data, response) = try await URLSession.shared.data(from: url)
         
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == Constants.numbers.statusCode200 else {
             throw NetworkError.weatherNotFound
         }
         

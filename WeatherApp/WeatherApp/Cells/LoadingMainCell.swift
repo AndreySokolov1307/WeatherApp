@@ -8,11 +8,11 @@
 import UIKit
 
 class LoadingMainCell: UICollectionViewCell {
-    static let reuseIdentifier = "LoadingMainCell"
+    static let reuseIdentifier = Constants.strings.loadingMainCellReuseIdentifier
     
     @UseAutolayout private var vStack: UIStackView  = .style {
         $0.axis = .vertical
-        $0.spacing = 24
+        $0.spacing = Constants.layout.loadingMainCellVStackSpacing
         $0.alignment = .center
         $0.distribution = .fill
     }
@@ -22,7 +22,7 @@ class LoadingMainCell: UICollectionViewCell {
     }
     
     private let titleLabel: UILabel = .style {
-        $0.text = "Вот бы было солнышко!"
+        $0.text = Constants.strings.loadingMainCellTitle
         $0.textColor = .systemGray
     }
 
@@ -40,13 +40,12 @@ class LoadingMainCell: UICollectionViewCell {
         addSubview(vStack)
         vStack.addArrangedSubview(imageView)
         vStack.addArrangedSubview(titleLabel)
-        let config = UIImage.SymbolConfiguration(pointSize: 72)
-        let image = UIImage(systemName: "sun.max", withConfiguration: config)
+        let image = Constants.images.sunMax?.withConfiguration(ImageConfig.sizeMax)
         imageView.image = image
         
         NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalToConstant: 72),
-            imageView.widthAnchor.constraint(equalToConstant: 72),
+            imageView.heightAnchor.constraint(equalToConstant: Constants.layout.loadingMainCellImageViewSide),
+            imageView.widthAnchor.constraint(equalToConstant: Constants.layout.loadingMainCellImageViewSide),
             
             vStack.centerXAnchor.constraint(equalTo: centerXAnchor),
             vStack.centerYAnchor.constraint(equalTo: centerYAnchor),

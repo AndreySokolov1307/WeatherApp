@@ -40,134 +40,112 @@ enum WeatherCode: Int {
     var title: String {
         switch self {
         case .clearSky:
-            return "Ясно"
+            return Constants.strings.clearSky
         case .mainlyClear:
-            return "В основном ясно"
+            return Constants.strings.mainlyClear
         case .partlyCloudy:
-            return "Переменная облачность"
+            return Constants.strings.partlyCloudy
         case .overcast:
-            return "Пасмурно"
+            return Constants.strings.overcast
         case .fog:
-            return "Туман"
+            return Constants.strings.fog
         case .rimeFog:
-            return "Иней, туман"
+            return Constants.strings.rimeFog
         case .lightDrizzle:
-            return "Легкая морось"
+            return Constants.strings.lightDrizzle
         case .moderateDrizzle:
-            return "Морось"
+            return Constants.strings.moderateDrizzle
         case .denseDrizzle:
-            return "Сильная морось"
+            return Constants.strings.denseDrizzle
         case .lightfreezingDrizzle:
-            return "Ледяная морось"
+            return Constants.strings.lightfreezingDrizzle
         case .denseFreezingDrizzle:
-            return "Сильная ледяная морось"
+            return Constants.strings.denseFreezingDrizzle
         case .slightRain:
-            return "Небольшой дождь"
+            return Constants.strings.slightRain
         case .moderateRain:
-            return "Дождь"
+            return Constants.strings.moderateRain
         case .heavyRain:
-            return "Сильный Дождь"
+            return Constants.strings.heavyRain
         case .lightFreezingRain:
-            return "Небольшой ледяной дождь"
+            return Constants.strings.lightFreezingRain
         case .heavyFreezingRain:
-            return "Сильный ледяной дождь"
+            return Constants.strings.heavyFreezingRain
         case .slightSnowFall:
-            return "Небольшой снегопад"
+            return Constants.strings.slightSnowFall
         case .moderateSnowFall:
-            return "Снегопад"
+            return Constants.strings.moderateSnowFall
         case .heavySnowFall:
-            return "Сильный снегопад"
+            return Constants.strings.heavySnowFall
         case .snowGrains:
-            return "Град"
+            return Constants.strings.snowGrains
         case .slightRainShower:
-            return "Небольшой ливень"
+            return Constants.strings.slightRainShower
         case .moderateRainShower:
-            return "Ливень"
+            return Constants.strings.moderateRainShower
         case .violentRainShower:
-            return "Сильный ливень"
+            return Constants.strings.moderateRainShower
         case .slightSnowShower:
-            return "Небольшая метель"
+            return Constants.strings.slightSnowShower
         case .heavySnowShower:
-            return "Сильная метель"
+            return Constants.strings.heavySnowShower
         case .thunderstorm:
-            return "Гроза"
+            return Constants.strings.thunderstorm
         case .thunderstormWithSlightHail:
-            return "Гроза с небольшим градом"
+            return Constants.strings.thunderstormWithSlightHail
         case .thunderstormWithHeavyHail:
-            return "Гроза с сильным градом"
+            return Constants.strings.thunderstormWithHeavyHail
         }
     }
     
     var image: UIImage? {
-        var config = ImageConfig.size
         var image: UIImage?
         
         switch self {
         case .clearSky, .mainlyClear:
-            config = config.applying(ImageConfig.yellow)
-            image = UIImage(systemName: "sun.max.fill", withConfiguration: config)
+            image = Constants.images.sun?.withConfiguration(ImageConfig.yellow)
             return image
         case .partlyCloudy:
-            config = config.applying(ImageConfig.greyYellow)
-            image = UIImage(systemName: "cloud.sun.fill",withConfiguration: config)
+            image = Constants.images.cloudSun?.withConfiguration (ImageConfig.greyYellow)
             return image
         case .overcast:
-            config = config.applying(ImageConfig.grey)
-            image = UIImage(systemName: "cloud.fill", withConfiguration: config)
+            image = Constants.images.cloud?.withConfiguration(ImageConfig.grey)
             return image
         case .fog, .rimeFog:
-            config = config.applying(ImageConfig.greyLightgray)
-            image = UIImage(systemName: "cloud.fog.fill", withConfiguration: config)
+            image = Constants.images.fog?.withConfiguration(ImageConfig.greyLightgray)
             return image
         case .lightDrizzle, .moderateDrizzle, .denseDrizzle:
-            config = config.applying(ImageConfig.greyBlue)
-            image = UIImage(systemName: "cloud.drizzle.fill", withConfiguration: config)
+            image = Constants.images.drizzle?.withConfiguration(ImageConfig.greyBlue)
             return image
         case .lightfreezingDrizzle, .denseFreezingDrizzle, .lightFreezingRain, .heavyFreezingRain:
-            config = config.applying(ImageConfig.greyBlue)
-            image = UIImage(systemName: "cloud.sleet.fill", withConfiguration: config)
+            image = Constants.images.sleet?.withConfiguration(ImageConfig.greyBlue)
             return image
         case .slightRain, .moderateRain:
-            config = config.applying(ImageConfig.greyBlue)
-            image = UIImage(systemName: "cloud.rain.fill", withConfiguration: config)
+            image = Constants.images.rain?.withConfiguration(ImageConfig.greyBlue)
             return image
         case .heavyRain, .slightRainShower, .moderateRainShower, .violentRainShower:
-            config = config.applying(ImageConfig.greyBlue)
-            image = UIImage(systemName: "cloud.heavyrain.fill", withConfiguration: config)
+            image = Constants.images.heavyRain?.withConfiguration(ImageConfig.greyBlue)
             return image
         case .slightSnowFall, .moderateSnowFall, .heavySnowFall:
-            config = config.applying(ImageConfig.greyBlue)
-            image = UIImage(systemName: "cloud.snow.fill", withConfiguration: config)
+            image = Constants.images.snow?.withConfiguration(ImageConfig.greyBlue)
             return image
         case .snowGrains:
-            config = config.applying(ImageConfig.greyBlue)
-            image = UIImage(systemName: "cloud.hail.fill", withConfiguration: config)
+            image = Constants.images.hail?.withConfiguration(ImageConfig.greyBlue)
             return image
         case .slightSnowShower:
-            config = config.applying(ImageConfig.greyBlue)
-            image = UIImage(systemName: "wind.snow", withConfiguration: config)
+            image = Constants.images.windSnow?.withConfiguration(ImageConfig.greyBlue)
             return image
         case .heavySnowShower:
-            config = config.applying(ImageConfig.greyBlue)
-            image = UIImage(systemName: "wind.snow", withConfiguration: config)
+            image = Constants.images.windSnow?.withConfiguration(ImageConfig.greyBlue)
             return image
         case .thunderstorm:
-            config = config.applying(ImageConfig.greyYellow)
-            image = UIImage(systemName: "cloud.bolt.fill", withConfiguration: config)
+            image = Constants.images.thunderstorm?.withConfiguration(ImageConfig.greyYellow)
             return image
         case .thunderstormWithSlightHail, .thunderstormWithHeavyHail:
-            config = config.applying(ImageConfig.greyBlue)
-            image = UIImage(systemName: "cloud.bolt.rain.fill", withConfiguration: config)
+            image = Constants.images.thunderstormRain?.withConfiguration(ImageConfig.greyBlue)
             return image
         }
     }
 }
 
-fileprivate enum ImageConfig {
-    static let size = UIImage.SymbolConfiguration.init(pointSize: 24)
-    static let yellow = UIImage.SymbolConfiguration(paletteColors: [.systemYellow])
-    static let grey = UIImage.SymbolConfiguration(paletteColors: [.systemGray3])
-    static let greyBlue = UIImage.SymbolConfiguration(paletteColors: [.systemGray3, Constants.colors.lightBlue2!])
-    static let greyYellow = UIImage.SymbolConfiguration(paletteColors: [.systemGray3, .systemYellow])
-    static let greyLightgray = UIImage.SymbolConfiguration(paletteColors: [.systemGray3, .systemGray5])
-}
+

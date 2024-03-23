@@ -26,6 +26,7 @@ enum CollectionViewSection: CaseIterable {
 class WeatherView: UIView {
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+    @UseAutolayout var errorView = ErrorView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,12 +42,19 @@ class WeatherView: UIView {
         collectionView.backgroundColor = Constants.colors.lightGray
         backgroundColor = .systemBackground
         addSubview(collectionView)
+        addSubview(errorView)
+        errorView.isHidden = true
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            
+            errorView.topAnchor.constraint(equalTo: topAnchor),
+            errorView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            errorView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            errorView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
     
@@ -58,64 +66,60 @@ class WeatherView: UIView {
         
             switch section {
             case .main:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let itemSize = Constants.layout.mainSectionItemSize
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0)
+                item.contentInsets = Constants.layout.mainSectionItemContentInsets
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.3))
+                let groupSize = Constants.layout.mainSectionGroupSize
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
                                                              repeatingSubitem: item,
-                                                             count: 1)
+                                                             count: Constants.layout.mainSectionGroupItemsCount)
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16)
+                section.contentInsets = Constants.layout.mainSectionContentInsets
                 let background = NSCollectionLayoutDecorationItem.background(elementKind: SectionBackgroundView.kindIdenifier)
-                background.contentInsets  = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0)
+                background.contentInsets  = Constants.layout.mainSectionBackgroundContentInsets
                 section.decorationItems = [background]
                 
                 return section
             case .detail:
                 //MARK: - Main/Detail Sections Layout
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let itemSize = Constants.layout.detailSectionItemSize
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets.bottom = 8
+                item.contentInsets.bottom = Constants.layout.detailSectionItemBottomContentInset
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.3))
+                let groupSize = Constants.layout.detailSectionGroupSize
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
                                                              repeatingSubitem: item,
-                                                             count: 1)
+                                                             count: Constants.layout.detailSectionGroupItemsCount)
                 
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16)
+                section.contentInsets = Constants.layout.detailSectionContentInsets
                 
-                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0) ,
-                                                        heightDimension: .absolute(40))
+                let headerSize = Constants.layout.detailSectionHeaderSize
                 let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
                 section.boundarySupplementaryItems = [header]
                 
                 let background = NSCollectionLayoutDecorationItem.background(elementKind: SectionBackgroundView.kindIdenifier)
-                background.contentInsets  = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0)
+                background.contentInsets  = Constants.layout.detailSectionBackgroundContentInsets
                 
                 section.decorationItems = [background]
                 
                 return section
             case .sevenDays:
                 //MARK: - SevenDays Section Layout
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                      heightDimension: .fractionalHeight(1.0))
+                let itemSize = Constants.layout.sevenDaysSectionItemSize
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                       heightDimension: .absolute(60.0))
+                let groupSize = Constants.layout.sevenDaysSectionGroupSize
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
                                                                repeatingSubitem: item,
-                                                               count: 1)
+                                                             count: Constants.layout.sevenDaysSectionGroupItemsCount)
         
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 4, trailing: 16)
+                section.contentInsets = Constants.layout.sevenDaysSectionContentInsets
                 
-                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0) ,
-                                                        heightDimension: .absolute(40))
+                let headerSize = Constants.layout.sevenDaysSectionHeaderSize
                 let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
                 section.boundarySupplementaryItems = [header]
                 

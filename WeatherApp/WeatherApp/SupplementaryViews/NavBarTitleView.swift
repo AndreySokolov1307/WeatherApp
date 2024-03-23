@@ -11,11 +11,11 @@ import CoreLocation
 class NavBarTitleView : UIView {
     
     let titleLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        $0.font = Constants.fonts.navBarTitle
     }
     
     @UseAutolayout private var chevronImageView: UIImageView = .style {
-        $0.image = UIImage(systemName: "chevron.down")
+        $0.image = Constants.images.chevronDown
         $0.tintColor = .systemGray
         $0.isHidden = true
     }
@@ -24,7 +24,7 @@ class NavBarTitleView : UIView {
     
     @UseAutolayout private var hStack: UIStackView = .style {
         $0.axis = .horizontal
-        $0.spacing = 4
+        $0.spacing = Constants.layout.navBarHStackSpacing
         $0.alignment = .center
         $0.distribution = .fill
     }
@@ -49,20 +49,20 @@ class NavBarTitleView : UIView {
         hStack.addArrangedSubview(weatherImageView)
         hStack.addArrangedSubview(titleLabel)
         hStack.addArrangedSubview(chevronImageView)
-        hStack.setCustomSpacing(6, after: weatherImageView)
+        hStack.setCustomSpacing(Constants.layout.navBarHStackCustomSpacing, after: weatherImageView)
         weatherImageView.contentMode = .scaleAspectFit
         
         NSLayoutConstraint.activate([
             hStack.centerYAnchor.constraint(equalTo: centerYAnchor),
             hStack.centerXAnchor.constraint(equalTo: centerXAnchor),
-            hStack.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 1),
-            hStack.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 1),
+            hStack.widthAnchor.constraint(equalTo: widthAnchor, multiplier: Constants.layout.navBarHStackSideMultiplier),
+            hStack.heightAnchor.constraint(equalTo: heightAnchor, multiplier: Constants.layout.navBarHStackSideMultiplier),
             
-            weatherImageView.widthAnchor.constraint(equalToConstant: 24),
-            weatherImageView.widthAnchor.constraint(equalToConstant: 24),
+            weatherImageView.widthAnchor.constraint(equalToConstant: Constants.layout.navBarWeatherImageViewSide),
+            weatherImageView.widthAnchor.constraint(equalToConstant: Constants.layout.navBarWeatherImageViewSide),
             
-            chevronImageView.heightAnchor.constraint(equalToConstant: 16),
-            chevronImageView.widthAnchor.constraint(equalToConstant: 16),
+            chevronImageView.heightAnchor.constraint(equalToConstant: Constants.layout.navBarChevronImageViewSide),
+            chevronImageView.widthAnchor.constraint(equalToConstant: Constants.layout.navBarChevronImageViewSide),
         ])
     }
 }

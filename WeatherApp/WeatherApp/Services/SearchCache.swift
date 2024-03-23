@@ -24,20 +24,20 @@ class SearchCache {
         saveAllresults()
     }
     
-    private func saveAllresults(to file: String = "searchResults")  {
+    private func saveAllresults(to file: String = Constants.strings.searchResultsFile)  {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
                                                           in: .userDomainMask).first!
-        let archieveURL = documentsDirectory.appendingPathComponent("search_results").appendingPathExtension("plist")
+        let archieveURL = documentsDirectory.appendingPathComponent(Constants.strings.searchResultsPathComponents).appendingPathExtension(Constants.strings.searcResultsPathExtension)
         let propertyListEncoder = PropertyListEncoder()
         let encodedPlaces = try? propertyListEncoder.encode(searchResults)
         
         try? encodedPlaces?.write(to: archieveURL, options: .noFileProtection)
     }
     
-    func loadAllSearchPlaces(from file: String = "searchResults") {
+    func loadAllSearchPlaces(from file: String = Constants.strings.searchResultsFile) {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
                                                           in: .userDomainMask).first!
-        let archieveURL = documentsDirectory.appendingPathComponent("search_results").appendingPathExtension("plist")
+        let archieveURL = documentsDirectory.appendingPathComponent(Constants.strings.searchResultsPathComponents).appendingPathExtension(Constants.strings.searcResultsPathExtension)
         let propertyListDecoder = PropertyListDecoder()
         
         if let retrievedNotesData = try? Data.init(contentsOf: archieveURL), let decodedPlaces = try? propertyListDecoder.decode(Array<SearchResult>.self, from: retrievedNotesData) {

@@ -19,7 +19,7 @@ class WeatherViewController: UIViewController {
         CollectionViewSection.getSections(isLoading: isLoading)
     }
     private var isLoading = true
-    private let userHaveSeenDeniedAlert = UserDefaults.standard.bool(forKey: "haveSeenDeniedAlert")
+    private let userHaveSeenDeniedAlert = UserDefaults.standard.bool(forKey: Constants.strings.haveSeenDeniedAlertKey)
     private var weather: Weaher? {
         didSet {
             isLoading = false
@@ -34,6 +34,7 @@ class WeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
+        addTargetToErrorViewButton()
         setupCollectionView()
         checkLocationServices()
     }
@@ -77,17 +78,32 @@ class WeatherViewController: UIViewController {
                 // ignore cancellation errors
             } catch {
                 print(error)
+                updateUIWithError()
             }
             weatherTask = nil
         }
+    }
+    
+    private func updateUIWithError() {
+        weatherView.errorView.isHidden = false
+    }
+    
+    private func addTargetToErrorViewButton() {
+        weatherView.errorView.tryAgainButton.addTarget(self, action: #selector(didTapTryAgainButton), for: .touchUpInside)
+    }
+    
+    @objc private func didTapTryAgainButton() {
+        weatherView.errorView.isHidden = true
+        checkLocationAuthorization()
+        
     }
     
     private func updateUIWithMoscowLocation() {
         weatherTask?.cancel()
         weatherTask = Task {
             do {
-                let location = CLLocation(latitude: 55.7512, longitude: 37.6156)
-                weather = try await networkService.fetchWeather(latitude: 55.7512, longitude:  37.6156)
+                let location = Constants.location.moscowLocation
+                weather = try await networkService.fetchWeather(latitude: location.coordinate.latitude, longitude:  location.coordinate.longitude)
                 try await navBarTitleView.configure(with: location, weather: weather)
             } catch let error as NSError where error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled {
                 // ignore cancellation errors
@@ -134,11 +150,11 @@ class WeatherViewController: UIViewController {
         } else {
             updateUIWithMoscowLocation()
             if status == .restricted {
-                presentConfirmAlert(title: "Ошибка", message: "Доступ к местоположению ограничен родительским контролем")
+                presentConfirmAlert(title: Constants.strings.error, message: Constants.strings.restrictedMessage)
             } else {
-                presentConfirmAlert(title: "Ошибка", message: "Доступ к местоположению запрещен. Пожалуйста разрешите это в настройках")
+                presentConfirmAlert(title: Constants.strings.error, message: Constants.strings.deniedMessage)
             }
-            UserDefaults.standard.set(true, forKey: "haveSeenDeniedAlert")
+            UserDefaults.standard.set(true, forKey: Constants.strings.haveSeenDeniedAlertKey)
         }
     }
 }
@@ -152,13 +168,13 @@ extension WeatherViewController: UICollectionViewDataSource {
     
     private func numberOfItems(in section: CollectionViewSection) -> Int {
         switch section {
-        case .main: return 1
-        case .detail: return  1
+        case .main: return Constants.layout.numberOfItemsMainSection
+        case .detail: return Constants.layout.numberOfItemsDetailSection
         case .sevenDays:
             if let weather = weather {
                 return weather.daily.dates.count
             } else {
-                return 0
+                return Constants.layout.zeroItems
             }
         }
     }
@@ -208,11 +224,11 @@ extension WeatherViewController: UICollectionViewDelegate {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionViewHeader.reuseIdentifier, for: indexPath) as! CollectionViewHeader
         switch CollectionViewSection.allCases[indexPath.section] {
         case .detail:
-            header.label.text = "Сейчас"
-            header.label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+            header.label.text = Constants.strings.detailHeaderTitle
+            header.label.font = Constants.fonts.detailHeader
         case .sevenDays:
-            header.label.text = "Прогноз на 7 дней"
-            header.label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+            header.label.text = Constants.strings.sevenDaysHeaderTitle
+            header.label.font = Constants.fonts.sevenDaysHeader
         case .main:
             break
         }

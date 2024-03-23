@@ -8,7 +8,7 @@
 import UIKit
 
 class CollectionViewHeader: UICollectionReusableView {
-    static let reuseIdentifier = "HeaderIdentifier"
+    static let reuseIdentifier = Constants.strings.collectionViewHeaderReuseIdentifier
     
     @UseAutolayout var label = UILabel()
     

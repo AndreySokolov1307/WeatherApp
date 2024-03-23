@@ -78,7 +78,7 @@ struct DailyWeather: Codable, Hashable {
             let roudedIndex = Int(uvIndex.rounded(.toNearestOrEven))
             return String(roudedIndex)
         } else {
-            return "Ой, куда-то пропал"
+            return Constants.strings.uvIndexErrorTitle
         }
     }
 }

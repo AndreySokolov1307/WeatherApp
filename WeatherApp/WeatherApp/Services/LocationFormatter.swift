@@ -18,7 +18,7 @@ class LocationFormatter {
         if let locality = placemark.first?.locality {
             return locality
         } else {
-            return ""
+            return Constants.strings.empty
         }
     }
 }

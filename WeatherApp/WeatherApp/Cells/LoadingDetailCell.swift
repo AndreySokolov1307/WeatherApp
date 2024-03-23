@@ -7,11 +7,11 @@
 
 import UIKit
 class LoadingDetailCell: UICollectionViewCell {
-    static let reuseIdentifier = "LoadingDetailCell"
+    static let reuseIdentifier = Constants.strings.loadingDetailCellReuseIdentifier
     
     @UseAutolayout private var vStack: UIStackView = .style {
         $0.axis = .vertical
-        $0.spacing = 8
+        $0.spacing = Constants.layout.loadingDetailCellVStackSpacing
         $0.alignment = .leading
         $0.distribution = .fillEqually
     }

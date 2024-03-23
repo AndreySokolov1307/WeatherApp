@@ -8,15 +8,15 @@
 import UIKit
 
 class SectionBackgroundView: UICollectionReusableView {
-    static let kindIdenifier = "SectionBackgroundView"
+    static let kindIdenifier = Constants.strings.collectionViewSectionBackgroundKindIdentifier
     
     override func didMoveToSuperview() {
         backgroundColor = .white
-        layer.cornerRadius = 16
-        layer.shadowRadius = 6
+        layer.cornerRadius = Constants.layout.sectionBackgroundViewCornerRadius
+        layer.shadowRadius = Constants.layout.sectionBackgroundViewCornerRadius
         layer.shadowColor = UIColor.lightGray.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        layer.shadowOpacity = 0.2
+        layer.shadowOffset = Constants.layout.sectionBackgrondViewShadowOffset
+        layer.shadowOpacity = Constants.layout.sectionBackgrondViewShadowOpacity
         layer.masksToBounds = false
     }
 }

@@ -8,27 +8,27 @@
 import UIKit
 
 class LocationSearchCell: UITableViewCell {
-    static let reuseIdentifier = "LocationSearchCell"
+    static let reuseIdentifier = Constants.strings.locationSearchCellReuseIdentifier
     
-    @UseAutolayout var seletionImageView: UIImageView = .style {
+    @UseAutolayout var selectionImageView: UIImageView = .style {
         $0.tintColor = Constants.colors.lightBlue2
     }
     @UseAutolayout private var vStack: UIStackView = .style {
         $0.axis = .vertical
-        $0.spacing = 2
+        $0.spacing = Constants.layout.locationSearchCellVStackSpacing
         $0.alignment = .leading
         $0.distribution = .fillProportionally
     }
     
     let titleLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        $0.numberOfLines = 1
+        $0.font = Constants.fonts.locationCellTitleLabel
+        $0.numberOfLines = Constants.numbers.locationCellTitleLabelNumberOfLines
     }
     
     let infoLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        $0.font = Constants.fonts.locationCellInfoLabel
         $0.textColor = .systemGray
-        $0.numberOfLines = 1
+        $0.numberOfLines = Constants.numbers.locationCellInfoLabelNumberOfLines
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -41,39 +41,38 @@ class LocationSearchCell: UITableViewCell {
     }
     
     func toSelectedState() {
-        let config = UIImage.SymbolConfiguration(pointSize: 24)
-        let image = UIImage(systemName: "checkmark.circle.fill", withConfiguration: config)
-        seletionImageView.image = image
+        let image = Constants.images.selected?.withConfiguration(ImageConfig.size)
+        selectionImageView.image = image
     }
     
     func toNormalState() {
-        seletionImageView.image = nil
+        selectionImageView.image = nil
     }
     
     func animateSelectedBackgroundView() {
         selectedBackgroundView?.backgroundColor = .systemGray5
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
+        UIView.animate(withDuration: Constants.numbers.locationSearchCellAnimationDuration, delay: Constants.numbers.locationSearchCellAnimationDelay, options: .curveEaseIn) {
             self.selectedBackgroundView?.backgroundColor = .white
         }
     }
     
     private func configureCell() {
         addSubview(vStack)
-        addSubview(seletionImageView)
+        addSubview(selectionImageView)
         vStack.addArrangedSubview(titleLabel)
         vStack.addArrangedSubview(infoLabel)
         let selectedView = UIView()
         selectedBackgroundView = selectedView
         
         NSLayoutConstraint.activate([
-            vStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            vStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.layout.locationSearchCellVStackLeading),
             vStack.centerYAnchor.constraint(equalTo: centerYAnchor),
-            vStack.trailingAnchor.constraint(equalTo: seletionImageView.leadingAnchor, constant: -8),
+            vStack.trailingAnchor.constraint(equalTo: selectionImageView.leadingAnchor, constant: Constants.layout.locationSearchCellVStackTrailing),
             
-            seletionImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            seletionImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
-            seletionImageView.heightAnchor.constraint(equalToConstant: 24),
-            seletionImageView.widthAnchor.constraint(equalToConstant: 24),
+            selectionImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            selectionImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.layout.locationSearchCellSelectionImageViewTrailing),
+            selectionImageView.heightAnchor.constraint(equalToConstant: Constants.layout.locationSearchCellSelectionImageViewSide),
+            selectionImageView.widthAnchor.constraint(equalToConstant: Constants.layout.locationSearchCellSelectionImageViewSide),
         ])
     }
 }

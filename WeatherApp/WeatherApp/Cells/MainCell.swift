@@ -8,7 +8,7 @@
 import UIKit
 
 class MainCell: UICollectionViewCell {
-    static let reuseIdentifier = "MainCell"
+    static let reuseIdentifier = Constants.strings.mainCellReuseIdentifier
     
     @UseAutolayout private var vStack: UIStackView  = .style {
         $0.axis = .vertical
@@ -17,16 +17,16 @@ class MainCell: UICollectionViewCell {
     }
     
     let temperatureLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 70, weight: .semibold)
+        $0.font = Constants.fonts.mainCellTemperatureLabel
     }
     
     let weatherCodeLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        $0.font = Constants.fonts.mainCellWeatherCodeLabel
         $0.textColor = Constants.colors.gray
     }
     
     let apparentTemperatureLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        $0.font = Constants.fonts.mainCellApparentTemperatureLabel
         $0.textColor = Constants.colors.gray
     }
     
@@ -53,7 +53,7 @@ class MainCell: UICollectionViewCell {
     
     func configure(with currentWeather: CurrentWeather) {
         temperatureLabel.text = currentWeather.temperatureString
-        apparentTemperatureLabel.text = "Ощущается как \(currentWeather.apparentTemperatureString)"
+        apparentTemperatureLabel.text = Constants.strings.apparentTemperature + Constants.strings.space + currentWeather.apparentTemperatureString
         weatherCodeLabel.text = currentWeather.weatherCodeString
     }
 }

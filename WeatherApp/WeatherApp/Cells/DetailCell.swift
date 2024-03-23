@@ -8,33 +8,33 @@
 import UIKit
 
 class DetailCell: UICollectionViewCell {
-    static let reuseIdentifier = "DetailCell"
+    static let reuseIdentifier = Constants.strings.detailCellReuseIdentifier
     
     @UseAutolayout private var vStack: UIStackView = .style {
         $0.axis = .vertical
-        $0.spacing = 8
+        $0.spacing = Constants.layout.detailCellVStackSpacing
         $0.alignment = .fill
         $0.distribution = .fillEqually
     }
     
     let windInfoView: DetailInfoView = .style {
-        $0.titleLabel.text = "Ветер"
-        $0.imageView.image = UIImage(systemName: "wind")
+        $0.titleLabel.text = Constants.strings.windTitle
+        $0.imageView.image = Constants.images.wind
     }
     
     let humidityInfoView: DetailInfoView = .style {
-        $0.titleLabel.text = "Влажность"
-        $0.imageView.image = UIImage(systemName: "humidity")
+        $0.titleLabel.text = Constants.strings.humidityTitle
+        $0.imageView.image = Constants.images.humidity
     }
     
     let pressureInfoView: DetailInfoView = .style {
-        $0.titleLabel.text = "Давление"
-        $0.imageView.image = UIImage(systemName: "barometer")
+        $0.titleLabel.text = Constants.strings.pressureTitle
+        $0.imageView.image = Constants.images.barometer
     }
     
     let uvIndexInfoView: DetailInfoView = .style {
-        $0.titleLabel.text = "UV индекс"
-        $0.imageView.image = UIImage(systemName: "sun.max")
+        $0.titleLabel.text = Constants.strings.uvIndexTitle
+        $0.imageView.image = Constants.images.sunMax
     }
     
     

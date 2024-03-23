@@ -15,18 +15,18 @@ class DetailInfoView: UIView {
     
     @UseAutolayout private var vStack: UIStackView = .style {
         $0.axis = .vertical
-        $0.spacing = 2
+        $0.spacing = Constants.layout.detailInfoViewVStackSpacing
         $0.alignment = .leading
         $0.distribution = .fillProportionally
     }
     
     let titleLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        $0.font = Constants.fonts.detailInfoViewTitle
         $0.textColor = Constants.colors.gray
     }
     
     let infoLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        $0.font = Constants.fonts.deyailInfoViewInfo
     }
     
     override init(frame: CGRect) {
@@ -47,10 +47,10 @@ class DetailInfoView: UIView {
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             imageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 24),
-            imageView.widthAnchor.constraint(equalToConstant: 24),
+            imageView.heightAnchor.constraint(equalToConstant: Constants.layout.detailInfoViewImageViewSide),
+            imageView.widthAnchor.constraint(equalToConstant: Constants.layout.detailInfoViewImageViewSide),
             
-            vStack.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 16),
+            vStack.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: Constants.layout.detailInfoViewVStackLeading),
             vStack.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
     }

@@ -10,8 +10,8 @@ import UIKit
 class CityNotFoundView: UIView {
     
     @UseAutolayout private var label: UILabel = .style {
-        $0.text = "Город не найден"
-        $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        $0.text = Constants.strings.cityNotFoundTitle
+        $0.font = Constants.fonts.cityNotFoundLabel
         $0.textColor = Constants.colors.gray
     }
     
@@ -28,7 +28,7 @@ class CityNotFoundView: UIView {
         addSubview(label)
         
         NSLayoutConstraint.activate([
-            label.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -200),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Constants.layout.cityNotFoundLabelCenterY),
             label.centerXAnchor.constraint(equalTo: centerXAnchor),
         ])
     }
