@@ -92,6 +92,7 @@ enum Constants {
         static let errorViewSubtitle = "Постараемся быстро все исправить"
         static let tryAgainButtonTitle = "Попробовать снова"
         static let ok = "OK"
+        static let locationServicesDisabled = "Включите службы определения метопоожения в настройках"
     }
     
     //MARK: - Layout
@@ -135,8 +136,8 @@ enum Constants {
         static let detailCellVStackSpacing: CGFloat = 8
         static let dailyCellVStackSpacing: CGFloat = 4
         static let dailyCellHStackSpacing: CGFloat = 24
-        static let dailyCellMinTempLabelWidth: CGFloat = 25
-        static let dailyCellMaxTempLabelWidth: CGFloat = 25
+        static let dailyCellMinTempLabelWidth: CGFloat = 35
+        static let dailyCellMaxTempLabelWidth: CGFloat = 35
         static let userLocationCellDetailInfoviewLeading: CGFloat = 24
         static let userLocationCellDetailInfoviewTrailing: CGFloat = -24
         static let locationSearchCellVStackSpacing: CGFloat = 2

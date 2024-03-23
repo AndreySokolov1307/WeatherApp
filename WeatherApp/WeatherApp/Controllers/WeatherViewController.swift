@@ -10,13 +10,15 @@ import CoreLocation
 
 class WeatherViewController: UIViewController {
     
+    deinit { print("DEINIT WEATHER WEATHER") }
+    
     private lazy var weatherView = WeatherView()
     private lazy var networkService = NetworkService()
     private let navBarTitleView = NavBarTitleView()
     private let locationManager = CLLocationManager()
     private var weatherTask: Task<Void, Never>? = nil
-    private var sections: [CollectionViewSection] {
-        CollectionViewSection.getSections(isLoading: isLoading)
+    private var sections: [Section] {
+        Section.getSections(isLoading: isLoading)
     }
     private var isLoading = true
     private let userHaveSeenDeniedAlert = UserDefaults.standard.bool(forKey: Constants.strings.haveSeenDeniedAlertKey)
@@ -46,13 +48,14 @@ class WeatherViewController: UIViewController {
     }
     
     @objc private func didTapNavBarTitleView() {
-        let citySearchController = CitySearchTableViewController(locationManager: locationManager)
+        let citySearchController = CitySearchViewController(locationManager: locationManager)
         citySearchController.delegate = self
         let nav = UINavigationController(rootViewController: citySearchController)
         present(nav, animated: true)
     }
     
     private func setupCollectionView() {
+        weatherView.collectionView.setCollectionViewLayout(createLayout(), animated: true)
         weatherView.collectionView.dataSource = self
         weatherView.collectionView.delegate = self
         weatherView.collectionView.register(DailyCell.self, forCellWithReuseIdentifier: DailyCell.reuseIdentifier)
@@ -77,7 +80,6 @@ class WeatherViewController: UIViewController {
             } catch let error as NSError where error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled {
                 // ignore cancellation errors
             } catch {
-                print(error)
                 updateUIWithError()
             }
             weatherTask = nil
@@ -98,29 +100,13 @@ class WeatherViewController: UIViewController {
         
     }
     
-    private func updateUIWithMoscowLocation() {
-        weatherTask?.cancel()
-        weatherTask = Task {
-            do {
-                let location = Constants.location.moscowLocation
-                weather = try await networkService.fetchWeather(latitude: location.coordinate.latitude, longitude:  location.coordinate.longitude)
-                try await navBarTitleView.configure(with: location, weather: weather)
-            } catch let error as NSError where error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled {
-                // ignore cancellation errors
-            } catch {
-                print(error)
-            }
-            weatherTask = nil
-        }
-    }
-    
     private func checkLocationServices() {
         Task.detached {
             if CLLocationManager.locationServicesEnabled() {
                 await self.setupLocationManager()
                 await self.checkLocationAuthorization()
             } else {
-                //show allert that user have to turn this on
+                await self.presentConfirmAlert(title: Constants.strings.error, message: Constants.strings.locationServicesDisabled)
             }
         }
     }
@@ -129,9 +115,7 @@ class WeatherViewController: UIViewController {
         switch locationManager.authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
             guard let location = locationManager.location else { return }
-            weatherTask = Task {
-                updateUI(with: location)
-            }
+            updateUI(with: location)
         case .denied:
             handleLackOfUserLocation(for: .denied)
         case .notDetermined:
@@ -146,9 +130,9 @@ class WeatherViewController: UIViewController {
     
     private func handleLackOfUserLocation(for status: CLAuthorizationStatus) {
         if userHaveSeenDeniedAlert {
-            updateUIWithMoscowLocation()
+            updateUI(with: Constants.location.moscowLocation)
         } else {
-            updateUIWithMoscowLocation()
+            updateUI(with: Constants.location.moscowLocation)
             if status == .restricted {
                 presentConfirmAlert(title: Constants.strings.error, message: Constants.strings.restrictedMessage)
             } else {
@@ -166,7 +150,7 @@ extension WeatherViewController: UICollectionViewDataSource {
         sections.count
     }
     
-    private func numberOfItems(in section: CollectionViewSection) -> Int {
+    private func numberOfItems(in section: Section) -> Int {
         switch section {
         case .main: return Constants.layout.numberOfItemsMainSection
         case .detail: return Constants.layout.numberOfItemsDetailSection
@@ -205,11 +189,13 @@ extension WeatherViewController: UICollectionViewDataSource {
             }
         case .sevenDays:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyCell.reuseIdentifier, for: indexPath) as! DailyCell
-            let singleDay = SingleDay(date: (weather?.daily.dates[indexPath.row])!,
-                                      weatherCode: (weather?.daily.weatherCodes[indexPath.row])!,
-                                      temperaturesMax: (weather?.daily.temperaturesMax[indexPath.row])!,
-                                      temperaturesMin: (weather?.daily.temperaturesMin[indexPath.row])!)
-            cell.configure(with: singleDay)
+            if let weather = weather {
+                let singleDay = SingleDay(date: (weather.daily.dates[indexPath.row]),
+                                          weatherCode: (weather.daily.weatherCodes[indexPath.row]),
+                                          temperaturesMax: (weather.daily.temperaturesMax[indexPath.row]),
+                                          temperaturesMin: (weather.daily.temperaturesMin[indexPath.row]))
+                cell.configure(with: singleDay)
+            }
             return cell
         }
     }
@@ -222,7 +208,7 @@ extension WeatherViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionViewHeader.reuseIdentifier, for: indexPath) as! CollectionViewHeader
-        switch CollectionViewSection.allCases[indexPath.section] {
+        switch Section.allCases[indexPath.section] {
         case .detail:
             header.label.text = Constants.strings.detailHeaderTitle
             header.label.font = Constants.fonts.detailHeader
@@ -240,18 +226,7 @@ extension WeatherViewController: UICollectionViewDelegate {
 
 extension WeatherViewController: CitySearchTableViewControllerDelegate {
     func didSelectRegion(with location: CLLocation) {
-        weatherTask?.cancel()
-        weatherTask = Task {
-            do {
-                weather = try await networkService.fetchWeather(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-                try await navBarTitleView.configure(with: location, weather: weather)
-            } catch let error as NSError where error.domain == NSURLErrorDomain && error.code == NSURLErrorCancelled {
-                // ignore cancellation errors
-            } catch {
-                print(error)
-            }
-            weatherTask = nil
-        }
+        updateUI(with: location)
     }
 }
 

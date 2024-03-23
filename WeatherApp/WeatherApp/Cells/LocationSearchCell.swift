@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MapKit
 
 class LocationSearchCell: UITableViewCell {
     static let reuseIdentifier = Constants.strings.locationSearchCellReuseIdentifier
@@ -54,6 +55,16 @@ class LocationSearchCell: UITableViewCell {
         UIView.animate(withDuration: Constants.numbers.locationSearchCellAnimationDuration, delay: Constants.numbers.locationSearchCellAnimationDelay, options: .curveEaseIn) {
             self.selectedBackgroundView?.backgroundColor = .white
         }
+    }
+    
+    func configureWithCompletion(_ completion: MKLocalSearchCompletion) {
+        titleLabel.text = completion.title
+        infoLabel.text = completion.subtitle
+    }
+    
+    func configureWithSearchResult(_ result: SearchResult) {
+        titleLabel.text = result.title
+        infoLabel.text = result.subtitle
     }
     
     private func configureCell() {

@@ -7,14 +7,23 @@
 
 import UIKit
 import MapKit
+class Weak<T: AnyObject> {
+    weak var value: T?
+    init(value: T) {
+        self.value = value
+    }
+}
 
 protocol CitySearchTableViewControllerDelegate: AnyObject {
     func didSelectRegion(with location: CLLocation )
 }
 
-class CitySearchTableViewController: UIViewController {
+class CitySearchViewController: UIViewController {
+    
+    deinit { print("DEINIIIIIT CITYCITYCITY")}
     
     private lazy var citySearchView = CitySearchView()
+    private var searchCache = SearchCache()
     private var cachedSearchResults: [SearchResult] = []
     private var selectedSearchResult: SearchResult? = nil
     private let locationManager: CLLocationManager
@@ -65,8 +74,23 @@ class CitySearchTableViewController: UIViewController {
         setupNavBar()
         setupDoneButton()
         setupSearchCompleter()
-        SearchCache.shared.loadAllSearchPlaces()
-        cachedSearchResults = SearchCache.shared.searchResults
+        loadSearchResults()
+     
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        //to prevent retain cycle
+        searchController.dismiss(animated: false)
+    }
+    
+    private func setupSearchCompleter() {
+        searchCompleter.delegate = self
+    }
+    
+    private func loadSearchResults() {
+        searchCache.loadAllSearchPlaces()
+        cachedSearchResults = searchCache.searchResults
     }
     
     private func setupSearchController() {
@@ -101,34 +125,29 @@ class CitySearchTableViewController: UIViewController {
     
     @objc private func didTapDoneButton() {
         if let completion = selectedSearchCompletion {
-            SearchCache.shared.addAndSaveNewResult(SearchResult(title: completion.title, subtitle: completion.subtitle))
+            searchCache.addAndSaveNewResult(SearchResult(title: completion.title, subtitle: completion.subtitle))
             let request = MKLocalSearch.Request(completion: completion)
             let search = MKLocalSearch(request: request)
-            Task {
-                let responce = try await search.start()
-                guard let item = responce.mapItems.first,
-                      let location = item.placemark.location else { return }
-                delegate?.didSelectRegion(with: location)
-            }
-            navigationController?.dismiss(animated: true)
+            handleSearch(search)
         } else if let selectedSearchResult = selectedSearchResult {
             let searchRequest = MKLocalSearch.Request()
             searchRequest.naturalLanguageQuery = selectedSearchResult.description
             let search = MKLocalSearch(request: searchRequest)
-            Task {
-                let responce = try await search.start()
-                guard let item = responce.mapItems.first,
-                      let location = item.placemark.location else { return }
-                delegate?.didSelectRegion(with: location)
-            }
-            navigationController?.dismiss(animated: true)
+            handleSearch(search)
         } else {
             navigationController?.dismiss(animated: true)
         }
     }
     
-    private func setupSearchCompleter() {
-        searchCompleter.delegate = self
+    private func handleSearch(_ search: MKLocalSearch) {
+        Task {
+            let responce = try await search.start()
+            guard let item = responce.mapItems.first,
+                  let location = item.placemark.location else { return }
+            delegate?.didSelectRegion(with: location)
+            print(searchCompletions.count)
+        }
+        navigationController?.dismiss(animated: true)
     }
     
     private func checkLocationAuthorization() {
@@ -152,21 +171,8 @@ class CitySearchTableViewController: UIViewController {
 
 //MARK: - UITableViewDataSource
 
-extension CitySearchTableViewController: UITableViewDataSource {
-    private enum Section: String, CaseIterable {
-        case location, searchResult
-        
-        static func getSections(searchTerm: String?, isSearchResultsEmpty: Bool) -> [Section] {
-            if let searchTerm = searchTerm,
-               isSearchResultsEmpty,
-               searchTerm.count > Constants.numbers.maxSearchTermForSections {
-                return []
-            } else {
-                return allCases
-            }
-        }
-    }
-    
+extension CitySearchViewController: UITableViewDataSource {
+  
     private func numberOfRows(for section: Section) -> Int {
         switch section {
         case .location: return Constants.layout.numberOfRowsLocationSection
@@ -196,12 +202,10 @@ extension CitySearchTableViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: LocationSearchCell.reuseIdentifier) as! LocationSearchCell
             if searchCompletions.isEmpty {
                 let searchResult = cachedSearchResults[indexPath.row]
-                cell.titleLabel.text = searchResult.title
-                cell.infoLabel.text = searchResult.subtitle
+                cell.configureWithSearchResult(searchResult)
             } else {
-                let searchResult = searchCompletions[indexPath.row]
-                cell.titleLabel.text = searchResult.title
-                cell.infoLabel.text = searchResult.subtitle
+                let searchCompletion = searchCompletions[indexPath.row]
+                cell.configureWithCompletion(searchCompletion)
             }
             return cell
         }
@@ -210,7 +214,7 @@ extension CitySearchTableViewController: UITableViewDataSource {
 
 //MARK: - UITableViewDelegate
 
-extension CitySearchTableViewController: UITableViewDelegate {
+extension CitySearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch sections[indexPath.section] {
         case .location:
@@ -239,12 +243,12 @@ extension CitySearchTableViewController: UITableViewDelegate {
 
 //MARK: - MKLocalSearchCompleterDelegate
 
-extension CitySearchTableViewController: MKLocalSearchCompleterDelegate {
+extension CitySearchViewController: MKLocalSearchCompleterDelegate {
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         searchCompletions = completer.results
         selectedCell = nil
         if let text = searchController.searchBar.text,
-           text.count > Constants.numbers.maxTextCount {
+           text.count >= Constants.numbers.maxTextCount {
             citySearchView.tableView.backgroundView?.isHidden = !searchCompletions.isEmpty
         }
         citySearchView.tableView.reloadData()
@@ -253,8 +257,9 @@ extension CitySearchTableViewController: MKLocalSearchCompleterDelegate {
 
 //MARK: - MKLocalSearchCompleterDelegate
 
-extension CitySearchTableViewController: UISearchBarDelegate {
+extension CitySearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchCompleter.cancel()
         searchCompleter.queryFragment = searchText
         if searchText.isEmpty {
             searchCompletions = []
@@ -264,5 +269,11 @@ extension CitySearchTableViewController: UISearchBarDelegate {
         if searchText.count < Constants.numbers.maxSearchTextCount {
             citySearchView.tableView.backgroundView?.isHidden = true
         }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = Constants.strings.empty
+        searchBar.resignFirstResponder()
+        citySearchView.tableView.reloadData()
     }
 }
