@@ -20,9 +20,12 @@ class WeatherViewController: UIViewController {
     }
     private var isLoading = true
     private let userHaveSeenDeniedAlert = UserDefaults.standard.bool(forKey: Constants.strings.haveSeenDeniedAlertKey)
+    private let twelveHoursFormatter: TwelveHoursWeatherFormatter? = nil
+    private var twelveHoursData: TwelveHoursWeather? = nil
     private var weather: Weaher? {
         didSet {
             isLoading = false
+            setupTwelveHoursData()
             weatherView.collectionView.reloadData()
         }
     }
@@ -37,6 +40,19 @@ class WeatherViewController: UIViewController {
         addTargetToErrorViewButton()
         setupCollectionView()
         checkLocationServices()
+    }
+    
+    private func setupTwelveHoursData() {
+        if let weather = weather {
+            let twelveHoursFormatter = TwelveHoursWeatherFormatter(currentTime: weather.current.time,
+                                                                   hours: weather.hourly.time,
+                                                                   temperatures: weather.hourly.temperature,
+                                                                   weatherCodes: weather.hourly.weatherCode,
+                                                                   isDay: weather.hourly.isDay)
+            twelveHoursData = TwelveHoursWeather(hours: twelveHoursFormatter.hoursFormatted(),
+                                                 temperatures: twelveHoursFormatter.temperaturesFormatted(),
+                                                 weatherCodeImages: twelveHoursFormatter.weatherCodesImagesFormatted())
+        }
     }
     
     private func setupNavBar() {
@@ -57,10 +73,11 @@ class WeatherViewController: UIViewController {
         weatherView.collectionView.dataSource = self
         weatherView.collectionView.delegate = self
         weatherView.collectionView.register(DailyCell.self, forCellWithReuseIdentifier: DailyCell.reuseIdentifier)
+        weatherView.collectionView.register(HourlyCell.self, forCellWithReuseIdentifier: HourlyCell.reuseIdentifier)
         weatherView.collectionView.register(DetailCell.self, forCellWithReuseIdentifier: DetailCell.reuseIdentifier)
         weatherView.collectionView.register(MainCell.self, forCellWithReuseIdentifier: MainCell.reuseIdentifier)
-        weatherView.collectionView.register(LoadingDetailCell.self, forCellWithReuseIdentifier: LoadingDetailCell.reuseIdentifier)
         weatherView.collectionView.register(LoadingMainCell.self, forCellWithReuseIdentifier: LoadingMainCell.self.reuseIdentifier)
+        weatherView.collectionView.register(LoadingHourlyCell.self, forCellWithReuseIdentifier: LoadingHourlyCell.reuseIdentifier)
         weatherView.collectionView.register(CollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionViewHeader.reuseIdentifier)
     }
     
@@ -151,6 +168,7 @@ extension WeatherViewController: UICollectionViewDataSource {
     private func numberOfItems(in section: Section) -> Int {
         switch section {
         case .main: return Constants.layout.numberOfItemsMainSection
+        case .hourly: return 12
         case .detail: return Constants.layout.numberOfItemsDetailSection
         case .sevenDays:
             if let weather = weather {
@@ -176,15 +194,21 @@ extension WeatherViewController: UICollectionViewDataSource {
                 cell.configure(with: weather!.current)
                 return cell
             }
-        case .detail:
+        case .hourly:
             if isLoading {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LoadingDetailCell.reuseIdentifier, for: indexPath) as! LoadingDetailCell
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LoadingHourlyCell.reuseIdentifier, for: indexPath)
                 return cell
             } else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HourlyCell.reuseIdentifier, for: indexPath) as! HourlyCell
+                cell.configureWith(time: twelveHoursData?.hours[indexPath.row],
+                                   image: twelveHoursData?.weatherCodeImages[indexPath.row],
+                                   temperature: twelveHoursData?.temperatures[indexPath.row])
+                return cell
+            }
+        case .detail:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCell.reuseIdentifier, for: indexPath) as! DetailCell
                 cell.configure(with: weather!)
                 return cell
-            }
         case .sevenDays:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyCell.reuseIdentifier, for: indexPath) as! DailyCell
             if let weather = weather {
@@ -213,7 +237,7 @@ extension WeatherViewController: UICollectionViewDelegate {
         case .sevenDays:
             header.label.text = Constants.strings.sevenDaysHeaderTitle
             header.label.font = Constants.fonts.sevenDaysHeader
-        case .main:
+        case .main, .hourly:
             break
         }
         return header

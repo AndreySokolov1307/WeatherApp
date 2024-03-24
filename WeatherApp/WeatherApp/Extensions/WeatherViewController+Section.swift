@@ -10,16 +10,15 @@ import Foundation
 extension WeatherViewController {
     enum Section: CaseIterable {
         case main
+        case hourly
         case detail
         case sevenDays
         
         static func getSections(isLoading: Bool) -> [Section] {
-            var sections = allCases
             if isLoading {
-                sections.removeLast()
-                return sections
+                return [.main, .hourly]
             } else {
-                return sections
+                return allCases
             }
         }
     }

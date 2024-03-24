@@ -30,7 +30,7 @@ struct SingleDay {
     }
     
     var weatherImage: UIImage? {
-        WeatherFormatter.shared.weatherCodeImage(from: weatherCode)
+        WeatherFormatter.shared.weatherCodeImage(from: weatherCode, isDay: nil)
     }
     
     var titleColor: UIColor? {

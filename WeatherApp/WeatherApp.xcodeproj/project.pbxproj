@@ -20,6 +20,10 @@
 		323209952BAB5D6000E0FF99 /* CollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323209942BAB5D6000E0FF99 /* CollectionViewHeader.swift */; };
 		323209972BAB5E7700E0FF99 /* SectionBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323209962BAB5E7700E0FF99 /* SectionBackgroundView.swift */; };
 		3232099D2BAB84C300E0FF99 /* WeatherFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3232099C2BAB84C300E0FF99 /* WeatherFormatter.swift */; };
+		3241DA0A2BB092A900EAF27B /* TwelveHoursWeatherFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3241DA092BB092A900EAF27B /* TwelveHoursWeatherFormatter.swift */; };
+		3241DA0C2BB092E300EAF27B /* TwelveHoursWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3241DA0B2BB092E300EAF27B /* TwelveHoursWeather.swift */; };
+		3241DA0E2BB0BC3A00EAF27B /* LoadingHourlyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3241DA0D2BB0BC3A00EAF27B /* LoadingHourlyCell.swift */; };
+		326A4AE32BB0648D003FF603 /* HourlyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A4AE22BB0648D003FF603 /* HourlyCell.swift */; };
 		32B3A7A52BAC44AB00877F2C /* CustomDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B3A7A42BAC44AB00877F2C /* CustomDateFormatter.swift */; };
 		32B3A7A72BAC4B3400877F2C /* WeekDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B3A7A62BAC4B3400877F2C /* WeekDay.swift */; };
 		32B3A7A92BAC53A200877F2C /* NavBarTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B3A7A82BAC53A200877F2C /* NavBarTitleView.swift */; };
@@ -63,6 +67,10 @@
 		323209942BAB5D6000E0FF99 /* CollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewHeader.swift; sourceTree = "<group>"; };
 		323209962BAB5E7700E0FF99 /* SectionBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionBackgroundView.swift; sourceTree = "<group>"; };
 		3232099C2BAB84C300E0FF99 /* WeatherFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherFormatter.swift; sourceTree = "<group>"; };
+		3241DA092BB092A900EAF27B /* TwelveHoursWeatherFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwelveHoursWeatherFormatter.swift; sourceTree = "<group>"; };
+		3241DA0B2BB092E300EAF27B /* TwelveHoursWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwelveHoursWeather.swift; sourceTree = "<group>"; };
+		3241DA0D2BB0BC3A00EAF27B /* LoadingHourlyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingHourlyCell.swift; sourceTree = "<group>"; };
+		326A4AE22BB0648D003FF603 /* HourlyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyCell.swift; sourceTree = "<group>"; };
 		32B3A7A42BAC44AB00877F2C /* CustomDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDateFormatter.swift; sourceTree = "<group>"; };
 		32B3A7A62BAC4B3400877F2C /* WeekDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDay.swift; sourceTree = "<group>"; };
 		32B3A7A82BAC53A200877F2C /* NavBarTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarTitleView.swift; sourceTree = "<group>"; };
@@ -150,6 +158,7 @@
 				32D4E2052BADC3D200EFE94D /* SingleDay.swift */,
 				32D4E2072BADC42000EFE94D /* WeatherCode.swift */,
 				32D4E20B2BADE5A800EFE94D /* SearchResult.swift */,
+				3241DA0B2BB092E300EAF27B /* TwelveHoursWeather.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -158,12 +167,14 @@
 			isa = PBXGroup;
 			children = (
 				3232098C2BAB2B8700E0FF99 /* MainCell.swift */,
+				326A4AE22BB0648D003FF603 /* HourlyCell.swift */,
 				3232098E2BAB2DB500E0FF99 /* DetailCell.swift */,
 				323209922BAB317F00E0FF99 /* DailyCell.swift */,
 				32B3A7AE2BACA50300877F2C /* UserLocationCell.swift */,
 				32B3A7B02BACB39600877F2C /* LocationSearchCell.swift */,
 				32D4E1FB2BAD9CBB00EFE94D /* LoadingDetailCell.swift */,
 				32D4E1FF2BADA2ED00EFE94D /* LoadingMainCell.swift */,
+				3241DA0D2BB0BC3A00EAF27B /* LoadingHourlyCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -219,6 +230,7 @@
 				3232099C2BAB84C300E0FF99 /* WeatherFormatter.swift */,
 				32B3A7A42BAC44AB00877F2C /* CustomDateFormatter.swift */,
 				32D4E2092BADE53500EFE94D /* SearchCache.swift */,
+				3241DA092BB092A900EAF27B /* TwelveHoursWeatherFormatter.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -327,6 +339,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				326A4AE32BB0648D003FF603 /* HourlyCell.swift in Sources */,
+				3241DA0A2BB092A900EAF27B /* TwelveHoursWeatherFormatter.swift in Sources */,
 				32B3A7A72BAC4B3400877F2C /* WeekDay.swift in Sources */,
 				323209912BAB2E0A00E0FF99 /* DetailInfoView.swift in Sources */,
 				32C478F12BAF28F600471B43 /* ImageConfig.swift in Sources */,
@@ -349,6 +363,7 @@
 				3232098D2BAB2B8700E0FF99 /* MainCell.swift in Sources */,
 				32B3A7B12BACB39600877F2C /* LocationSearchCell.swift in Sources */,
 				32C478F32BAF4AFC00471B43 /* WeatherViewController+Section.swift in Sources */,
+				3241DA0C2BB092E300EAF27B /* TwelveHoursWeather.swift in Sources */,
 				323209972BAB5E7700E0FF99 /* SectionBackgroundView.swift in Sources */,
 				32C478F72BAF508700471B43 /* CitySearchViewController+Section.swift in Sources */,
 				32C478ED2BAEF99F00471B43 /* ErrorView.swift in Sources */,
@@ -363,6 +378,7 @@
 				3232098B2BAB227F00E0FF99 /* WeatherView.swift in Sources */,
 				323209822BAB040000E0FF99 /* UseAutoLayout+propertyWrapper.swift in Sources */,
 				323209872BAB0A5100E0FF99 /* NetworkService.swift in Sources */,
+				3241DA0E2BB0BC3A00EAF27B /* LoadingHourlyCell.swift in Sources */,
 				32C478F52BAF4B5200471B43 /* WeatherViewController+Layout.swift in Sources */,
 				3232099D2BAB84C300E0FF99 /* WeatherFormatter.swift in Sources */,
 			);

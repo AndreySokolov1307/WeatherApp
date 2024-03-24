@@ -68,9 +68,10 @@ enum Constants {
         static let loadingMainCellTitle = "Вот бы было солнышко!"
         static let baseURLString = "https://api.open-meteo.com/v1/forecast"
         static let baseQuery: [String : String] = [
-            "current" : "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m",
+            "current" : "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m,is_day",
             "daily" : "weather_code,temperature_2m_max,temperature_2m_min,uv_index_max",
-            "timezone" : "auto"
+            "timezone" : "auto",
+            "hourly" : "temperature_2m,weather_code,is_day"
         ]
         static let latitude = "latitude"
         static let longitude = "longitude"
@@ -147,8 +148,8 @@ enum Constants {
         static let locationSearchCellSelectionImageViewSide: CGFloat = 24
         static let loadingDetailCellVStackSpacing: CGFloat = 8
         static let loadingMainCellVStackSpacing: CGFloat = 24
-        static let loadingMainCellImageViewSide: CGFloat = 72
-        static let sympolConfiguretionPointSizeMax: CGFloat = 72
+        static let loadingMainCellImageViewSide: CGFloat = 82
+        static let symbolConfiguretionPointSizeMax: CGFloat = 82
         static let detailInfoViewVStackSpacing: CGFloat = 2
         static let detailInfoViewImageViewSide: CGFloat = 24
         static let detailInfoViewVStackLeading: CGFloat = 16
@@ -200,6 +201,7 @@ enum Constants {
         static let lightBlue2 = UIColor(named: "lightBlue2")
         static let lightGray = UIColor(named: "lightGray")
         static let gray = UIColor(named: "gray")
+        static let purple = UIColor(named: "purple")
     }
     
     //MARK: - Images
@@ -209,6 +211,7 @@ enum Constants {
         static let cloudSun = UIImage(systemName: "cloud.sun.fill")
         static let cloud = UIImage(systemName: "cloud.fill")
         static let fog = UIImage(systemName: "cloud.fog.fill")
+        static let lightDrizzle = UIImage(systemName: "cloud.sun.rain.fill")
         static let drizzle = UIImage(systemName: "cloud.drizzle.fill")
         static let sleet = UIImage(systemName: "cloud.sleet.fill")
         static let rain = UIImage(systemName: "cloud.rain.fill")
@@ -227,7 +230,9 @@ enum Constants {
         static let selected = UIImage(systemName: "checkmark.circle.fill")
         static let chevronDown = UIImage(systemName: "chevron.down")
         static let exclamationmarkTriangle = UIImage(systemName: "exclamationmark.triangle.fill")
-        
+        static let moon = UIImage(systemName: "moon.fill")
+        static let cloudMoon = UIImage(systemName: "cloud.moon.fill")
+        static let cloudMoonRain = UIImage(systemName: "cloud.moon.rain.fill")
     }
     
     //MARK: - Loaction

@@ -50,10 +50,13 @@ class WeatherFormatter {
         }
     }
     
-    func weatherCodeImage(from weatherCode: Int) -> UIImage? {
+    func weatherCodeImage(from weatherCode: Int, isDay: Int?) -> UIImage? {
         let myWeatherCode = WeatherCode(rawValue: weatherCode)
-        let image = myWeatherCode?.image
-        return image
+        if let isDay = isDay {
+            return isDay == 1 ? myWeatherCode?.image : myWeatherCode?.nightImage
+        } else {
+            return myWeatherCode?.image
+        }
     }
 }
 
