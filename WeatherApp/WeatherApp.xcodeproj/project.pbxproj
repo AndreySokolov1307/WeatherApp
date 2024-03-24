@@ -37,8 +37,6 @@
 		32C478F32BAF4AFC00471B43 /* WeatherViewController+Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C478F22BAF4AFC00471B43 /* WeatherViewController+Section.swift */; };
 		32C478F52BAF4B5200471B43 /* WeatherViewController+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C478F42BAF4B5200471B43 /* WeatherViewController+Layout.swift */; };
 		32C478F72BAF508700471B43 /* CitySearchViewController+Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C478F62BAF508700471B43 /* CitySearchViewController+Section.swift */; };
-		32D4E1FC2BAD9CBB00EFE94D /* LoadingDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4E1FB2BAD9CBB00EFE94D /* LoadingDetailCell.swift */; };
-		32D4E1FE2BAD9CF900EFE94D /* LoadingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4E1FD2BAD9CF900EFE94D /* LoadingDetailView.swift */; };
 		32D4E2002BADA2ED00EFE94D /* LoadingMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4E1FF2BADA2ED00EFE94D /* LoadingMainCell.swift */; };
 		32D4E2022BADB3DB00EFE94D /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4E2012BADB3DB00EFE94D /* UIViewController+Alert.swift */; };
 		32D4E2042BADC3AF00EFE94D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4E2032BADC3AF00EFE94D /* Constants.swift */; };
@@ -84,8 +82,6 @@
 		32C478F22BAF4AFC00471B43 /* WeatherViewController+Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherViewController+Section.swift"; sourceTree = "<group>"; };
 		32C478F42BAF4B5200471B43 /* WeatherViewController+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherViewController+Layout.swift"; sourceTree = "<group>"; };
 		32C478F62BAF508700471B43 /* CitySearchViewController+Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CitySearchViewController+Section.swift"; sourceTree = "<group>"; };
-		32D4E1FB2BAD9CBB00EFE94D /* LoadingDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDetailCell.swift; sourceTree = "<group>"; };
-		32D4E1FD2BAD9CF900EFE94D /* LoadingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingDetailView.swift; sourceTree = "<group>"; };
 		32D4E1FF2BADA2ED00EFE94D /* LoadingMainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingMainCell.swift; sourceTree = "<group>"; };
 		32D4E2012BADB3DB00EFE94D /* UIViewController+Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		32D4E2032BADC3AF00EFE94D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -172,7 +168,6 @@
 				323209922BAB317F00E0FF99 /* DailyCell.swift */,
 				32B3A7AE2BACA50300877F2C /* UserLocationCell.swift */,
 				32B3A7B02BACB39600877F2C /* LocationSearchCell.swift */,
-				32D4E1FB2BAD9CBB00EFE94D /* LoadingDetailCell.swift */,
 				32D4E1FF2BADA2ED00EFE94D /* LoadingMainCell.swift */,
 				3241DA0D2BB0BC3A00EAF27B /* LoadingHourlyCell.swift */,
 			);
@@ -208,7 +203,6 @@
 				323209962BAB5E7700E0FF99 /* SectionBackgroundView.swift */,
 				32B3A7A82BAC53A200877F2C /* NavBarTitleView.swift */,
 				32B3A7B62BACCF7700877F2C /* CityNotFoundView.swift */,
-				32D4E1FD2BAD9CF900EFE94D /* LoadingDetailView.swift */,
 				32C478EC2BAEF99F00471B43 /* ErrorView.swift */,
 			);
 			path = SupplementaryViews;
@@ -373,8 +367,6 @@
 				32D4E2082BADC42000EFE94D /* WeatherCode.swift in Sources */,
 				323209842BAB048B00E0FF99 /* Weather.swift in Sources */,
 				323209932BAB317F00E0FF99 /* DailyCell.swift in Sources */,
-				32D4E1FE2BAD9CF900EFE94D /* LoadingDetailView.swift in Sources */,
-				32D4E1FC2BAD9CBB00EFE94D /* LoadingDetailCell.swift in Sources */,
 				3232098B2BAB227F00E0FF99 /* WeatherView.swift in Sources */,
 				323209822BAB040000E0FF99 /* UseAutoLayout+propertyWrapper.swift in Sources */,
 				323209872BAB0A5100E0FF99 /* NetworkService.swift in Sources */,

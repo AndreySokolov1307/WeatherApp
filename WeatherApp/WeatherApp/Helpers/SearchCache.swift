@@ -13,10 +13,10 @@ class SearchCache {
      
     func addAndSaveNewResult(_ result: SearchResult) {
         if !searchResults.contains(where: { $0.title == result.title }) {
-            searchResults.insert(result, at: 0)
+            searchResults.insert(result, at: Constants.numbers.zeroIndex)
         }
         
-        if searchResults.count > 5 {
+        if searchResults.count > Constants.numbers.maxNumberOfSearchResults {
             searchResults.removeLast()
         }
         saveAllresults()

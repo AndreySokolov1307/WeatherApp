@@ -8,7 +8,7 @@
 import UIKit
 
 class LoadingHourlyCell: UICollectionViewCell {
-    static let reuseIdentifier = "LoadingHourlyCell"
+    static let reuseIdentifier = Constants.strings.loadingHourlyCellReuseIdentifier
     
     @UseAutolayout private var vStack: UIStackView = .style {
         $0.axis = .vertical
@@ -18,18 +18,18 @@ class LoadingHourlyCell: UICollectionViewCell {
     
     @UseAutolayout private var titleView: UIView = .style {
         $0.backgroundColor = .systemGray5
-        $0.layer.cornerRadius = 2
+        $0.layer.cornerRadius = Constants.layout.loadingHourlyCellTitleViewCornerRadius
         $0.layer.masksToBounds = true
     }
     
     @UseAutolayout private var cirleView: UIView = .style {
         $0.backgroundColor = .systemGray5
-        $0.layer.cornerRadius = 17
+        $0.layer.cornerRadius = Constants.layout.loadingHourlyCellCircleViewCornerRadius
     }
     
     @UseAutolayout private var subtitleView: UILabel = .style {
         $0.backgroundColor = .systemGray5
-        $0.layer.cornerRadius = 2
+        $0.layer.cornerRadius = Constants.layout.loadingHourlyCellSubtitleViewCornerRadius
         $0.layer.masksToBounds = true
     }
     
@@ -54,14 +54,14 @@ class LoadingHourlyCell: UICollectionViewCell {
             vStack.topAnchor.constraint(equalTo: topAnchor),
             vStack.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            cirleView.heightAnchor.constraint(equalToConstant: 34),
-            cirleView.widthAnchor.constraint(equalToConstant: 34),
+            cirleView.heightAnchor.constraint(equalToConstant: Constants.layout.loadingHourlyCellCircleViewSide),
+            cirleView.widthAnchor.constraint(equalToConstant: Constants.layout.loadingHourlyCellCircleViewSide),
             
-            titleView.widthAnchor.constraint(equalToConstant: 24),
-            titleView.heightAnchor.constraint(equalToConstant: 16),
+            titleView.widthAnchor.constraint(equalToConstant: Constants.layout.loadingHourlyCellTitleViewWidth),
+            titleView.heightAnchor.constraint(equalToConstant: Constants.layout.loadingHourlyCellTitleViewHeight),
             
-            subtitleView.widthAnchor.constraint(equalToConstant: 24),
-            subtitleView.heightAnchor.constraint(equalToConstant: 16),
+            subtitleView.widthAnchor.constraint(equalToConstant: Constants.layout.loadingHourlyCellSubtitleViewWidth),
+            subtitleView.heightAnchor.constraint(equalToConstant: Constants.layout.loadingHourlyCellSubtitleViewHeight),
         ])
     }
 }

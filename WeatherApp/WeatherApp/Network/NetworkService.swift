@@ -19,7 +19,7 @@ class NetworkService {
     
     var baseQuery = Constants.strings.baseQuery
     
-    func fetchWeather(latitude: Double, longitude: Double) async throws -> Weaher {
+    func fetchWeather(latitude: Double, longitude: Double) async throws -> Weather {
         guard var urlComponents =  URLComponents(string: baseURLString) else {
             throw NetworkError.invalidURLComponents
         }
@@ -39,7 +39,7 @@ class NetworkService {
         
         let decoder = JSONDecoder()
         do {
-            let weather = try decoder.decode(Weaher.self, from: data)
+            let weather = try decoder.decode(Weather.self, from: data)
             return weather
         } catch {
             throw NetworkError.unableToParseJSON

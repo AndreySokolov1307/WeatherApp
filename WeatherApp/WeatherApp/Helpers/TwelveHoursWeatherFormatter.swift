@@ -13,13 +13,13 @@ struct TwelveHoursWeatherFormatter {
     let temperatures: [Double]
     let weatherCodes: [Int]
     let isDay: [Int]
-    private let lastIndex = 36
+    private let lastIndex = Constants.numbers.twelveHourWeatherFormatterLastIndex
     
     private func getFirstIndex() -> Int {
         let currentTime = CustomDateFormatter.shared.dateWithTime(from: currentTime)
         let index = hours.firstIndex(where: { hour in
             CustomDateFormatter.shared.dateWithTime(from: hour) > currentTime
-        }) ?? 0
+        }) ?? Constants.numbers.zeroIndex
         return index
     }
     
