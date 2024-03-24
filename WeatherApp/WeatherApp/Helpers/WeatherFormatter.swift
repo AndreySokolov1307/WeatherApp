@@ -23,7 +23,7 @@ class WeatherFormatter {
         return formatter.string(from: measurment)
     }
     
-    func windInfoString(direction: Int, speed: Double) -> String {
+    func windInfoString(from direction: Int, speed: Double) -> String {
         let value = Int(Double(direction) / 22.5 + 0.5)
         let directions = Constants.strings.directions
         let windDirection = directions[value % 16]
@@ -32,11 +32,11 @@ class WeatherFormatter {
         return string
     }
     
-    func humidityString(_ humidity: Int) -> String {
+    func humidityString(from humidity: Int) -> String {
       return "\(humidity)%"
     }
     
-    func pressureString(_ pressure: Double) -> String {
+    func pressureString(from pressure: Double) -> String {
         let mmHg = pressure * Constants.numbers.pressureCoef
         let roundedPressure = Int(mmHg.rounded(.toNearestOrEven))
         return "\(roundedPressure) мм рт.ст."

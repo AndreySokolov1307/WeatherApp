@@ -28,7 +28,6 @@ class SearchCache {
         let archieveURL = documentsDirectory.appendingPathComponent(Constants.strings.searchResultsPathComponents).appendingPathExtension(Constants.strings.searcResultsPathExtension)
         let propertyListEncoder = PropertyListEncoder()
         let encodedPlaces = try? propertyListEncoder.encode(searchResults)
-        print(archieveURL.absoluteURL)
         
         try? encodedPlaces?.write(to: archieveURL, options: .noFileProtection)
     }

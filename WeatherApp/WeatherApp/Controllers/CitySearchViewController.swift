@@ -7,20 +7,12 @@
 
 import UIKit
 import MapKit
-class Weak<T: AnyObject> {
-    weak var value: T?
-    init(value: T) {
-        self.value = value
-    }
-}
 
 protocol CitySearchTableViewControllerDelegate: AnyObject {
     func didSelectRegion(with location: CLLocation )
 }
 
 class CitySearchViewController: UIViewController {
-    
-    deinit { print("DEINIIIIIT CITYCITYCITY")}
     
     private lazy var citySearchView = CitySearchView()
     private var searchCache = SearchCache()
@@ -145,7 +137,6 @@ class CitySearchViewController: UIViewController {
             guard let item = responce.mapItems.first,
                   let location = item.placemark.location else { return }
             delegate?.didSelectRegion(with: location)
-            print(searchCompletions.count)
         }
         navigationController?.dismiss(animated: true)
     }

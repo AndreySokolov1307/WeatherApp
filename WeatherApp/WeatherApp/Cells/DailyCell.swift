@@ -79,11 +79,11 @@ class DailyCell: UICollectionViewCell {
     }
 
     func configure(with singleDay: SingleDay) {
-        dayOfTheWeekLabel.text = CustomDateFormatter.shared.dayOfTheWeek(from: singleDay.date)
-        dayOfTheWeekLabel.textColor = WeekDay(rawValue: CustomDateFormatter.shared.weekDayNumber(from: singleDay.date))?.titleColor
-        dateLabel.text = CustomDateFormatter.shared.formattedString(from: singleDay.date)
-        maxTemperatureLabel.text = WeatherFormatter.shared.temperatureString(from: singleDay.temperaturesMax)
-        minTemperatureLabel.text =  WeatherFormatter.shared.temperatureString(from: singleDay.temperaturesMin)
-        weatherImageView.image = WeatherFormatter.shared.weatherCodeImage(from: singleDay.weatherCode)
+        dayOfTheWeekLabel.text = singleDay.dayOfTheWeekString
+        dayOfTheWeekLabel.textColor = singleDay.titleColor
+        dateLabel.text = singleDay.dateString
+        maxTemperatureLabel.text = singleDay.maxRemperatureString
+        minTemperatureLabel.text =  singleDay.minTemperatureString
+        weatherImageView.image = singleDay.weatherImage
     }
 }

@@ -44,15 +44,15 @@ struct CurrentWeather: Codable, Hashable {
     }
     
     var windInfoString: String {
-        return WeatherFormatter.shared.windInfoString(direction: windDirection, speed: windSpeed)
+        return WeatherFormatter.shared.windInfoString(from: windDirection, speed: windSpeed)
     }
     
     var humidityString: String {
-        return WeatherFormatter.shared.humidityString(relativeHumidity)
+        return WeatherFormatter.shared.humidityString(from: relativeHumidity)
     }
     
     var pressureString: String {
-        return WeatherFormatter.shared.pressureString(surfacePressure)
+        return WeatherFormatter.shared.pressureString(from: surfacePressure)
     }
     
     var weatherImage: UIImage? {

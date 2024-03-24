@@ -10,8 +10,6 @@ import CoreLocation
 
 class WeatherViewController: UIViewController {
     
-    deinit { print("DEINIT WEATHER WEATHER") }
-    
     private lazy var weatherView = WeatherView()
     private lazy var networkService = NetworkService()
     private let navBarTitleView = NavBarTitleView()
