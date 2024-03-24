@@ -15,6 +15,7 @@ extension WeatherViewController {
             let section = Section.allCases[sectionIndex]
         
             switch section {
+            //MARK: - Detail Sections Layout
             case .main:
                 let itemSize = Constants.layout.mainSectionItemSize
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -32,8 +33,26 @@ extension WeatherViewController {
                 section.decorationItems = [background]
                 
                 return section
+            case .hourly:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.17), heightDimension: .fractionalHeight(0.15))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                               subitems: [item])
+                
+                let section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .continuous
+                section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 18, trailing: 8)
+                
+                let background = NSCollectionLayoutDecorationItem.background(elementKind: SectionBackgroundView.kindIdenifier)
+                background.contentInsets.bottom = 8
+                
+                section.decorationItems = [background]
+                
+                return section
+            //MARK: - Detail Sections Layout
             case .detail:
-                //MARK: - Main/Detail Sections Layout
                 let itemSize = Constants.layout.detailSectionItemSize
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 item.contentInsets.bottom = Constants.layout.detailSectionItemBottomContentInset
@@ -56,8 +75,8 @@ extension WeatherViewController {
                 section.decorationItems = [background]
                 
                 return section
+            //MARK: - SevenDays Section Layout
             case .sevenDays:
-                //MARK: - SevenDays Section Layout
                 let itemSize = Constants.layout.sevenDaysSectionItemSize
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 

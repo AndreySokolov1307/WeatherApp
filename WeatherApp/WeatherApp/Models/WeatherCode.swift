@@ -106,7 +106,7 @@ enum WeatherCode: Int {
             image = Constants.images.sun?.withConfiguration(ImageConfig.yellow)
             return image
         case .partlyCloudy:
-            image = Constants.images.cloudSun?.withConfiguration (ImageConfig.greyYellow)
+            image = Constants.images.cloudSun?.withConfiguration(ImageConfig.greyYellow)
             return image
         case .overcast:
             image = Constants.images.cloud?.withConfiguration(ImageConfig.grey)
@@ -114,13 +114,16 @@ enum WeatherCode: Int {
         case .fog, .rimeFog:
             image = Constants.images.fog?.withConfiguration(ImageConfig.greyLightgray)
             return image
-        case .lightDrizzle, .moderateDrizzle, .denseDrizzle:
+        case .lightDrizzle, .slightRain:
+            image = Constants.images.lightDrizzle?.withConfiguration(ImageConfig.greyYellowBlue)
+            return image
+        case .moderateDrizzle, .denseDrizzle:
             image = Constants.images.drizzle?.withConfiguration(ImageConfig.greyBlue)
             return image
         case .lightfreezingDrizzle, .denseFreezingDrizzle, .lightFreezingRain, .heavyFreezingRain:
             image = Constants.images.sleet?.withConfiguration(ImageConfig.greyBlue)
             return image
-        case .slightRain, .moderateRain:
+        case .moderateRain:
             image = Constants.images.rain?.withConfiguration(ImageConfig.greyBlue)
             return image
         case .heavyRain, .slightRainShower, .moderateRainShower, .violentRainShower:
@@ -144,6 +147,24 @@ enum WeatherCode: Int {
         case .thunderstormWithSlightHail, .thunderstormWithHeavyHail:
             image = Constants.images.thunderstormRain?.withConfiguration(ImageConfig.greyBlue)
             return image
+        }
+    }
+    
+    var nightImage: UIImage? {
+       var nightImage: UIImage?
+        
+        switch self {
+        case .clearSky, .mainlyClear:
+            nightImage = Constants.images.moon?.withConfiguration(ImageConfig.purple)
+            return  nightImage
+        case .partlyCloudy:
+            nightImage = Constants.images.cloudMoon?.withConfiguration(ImageConfig.greyPurple)
+            return  nightImage
+        case .lightDrizzle, .slightRain:
+            nightImage = Constants.images.cloudMoonRain?.withConfiguration(ImageConfig.greyPurpleBlue)
+            return  nightImage
+        default:
+            return  image
         }
     }
 }
