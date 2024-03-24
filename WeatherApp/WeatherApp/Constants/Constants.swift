@@ -65,7 +65,6 @@ enum Constants {
         static let locationSearchCellReuseIdentifier = "LocationSearchCell"
         static let loadingDetailCellReuseIdentifier = "LoadingDetailCell"
         static let loadingMainCellReuseIdentifier = "LoadingMainCell"
-        static let loadingMainCellTitle = "Вот бы было солнышко!"
         static let baseURLString = "https://api.open-meteo.com/v1/forecast"
         static let baseQuery: [String : String] = [
             "current" : "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m,is_day",
@@ -94,6 +93,11 @@ enum Constants {
         static let tryAgainButtonTitle = "Попробовать снова"
         static let ok = "OK"
         static let locationServicesDisabled = "Включите службы определения метопоожения в настройках"
+        static let hourlyCellReuseIdentifier = "HourlyCell"
+        static let loadingHourlyCellReuseIdentifier = "LoadingHourlyCell"
+        static let dateWithTimeFormat = "yyyy-MM-dd'T'HH:mm"
+        static let timeFormat = "HH:mm"
+        static let line = "-"
     }
     
     //MARK: - Layout
@@ -122,6 +126,10 @@ enum Constants {
         static let sevenDaysSectionContentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 4, trailing: 16)
         static let sevenDaysSectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0) ,
                                                                        heightDimension: .absolute(40))
+        static let hourlySectionItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        static let hourlySectionGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.17), heightDimension: .fractionalHeight(0.15))
+        static let hourlySectionContentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 18, trailing: 8)
+        static let hourlySectionBackgroundBottomInset: CGFloat = 8
         static let doneButtonCornerRadius: CGFloat = 12
         static let lineViewHeight: CGFloat = 0.5
         static let lineViewBottom: CGFloat = -12
@@ -174,6 +182,15 @@ enum Constants {
         static let errorViewVStackSpacing: CGFloat = 12
         static let errorViewVStackCustomSpacing: CGFloat = 8
         static let errorViewImageViewSide: CGFloat = 56
+        static let numberOfItemsHourlySection = 12
+        static let loadingHourlyCellCircleViewSide: CGFloat = 24
+        static let loadingHourlyCellTitleViewWidth: CGFloat = 24
+        static let loadingHourlyCellTitleViewHeight: CGFloat = 16
+        static let loadingHourlyCellSubtitleViewWidth: CGFloat = 24
+        static let loadingHourlyCellSubtitleViewHeight: CGFloat = 16
+        static let loadingHourlyCellSubtitleViewCornerRadius: CGFloat = 2
+        static let loadingHourlyCellTitleViewCornerRadius: CGFloat = 2
+        static let loadingHourlyCellCircleViewCornerRadius: CGFloat = 17
         
     }
     
@@ -192,6 +209,10 @@ enum Constants {
         static let statusCode200 = 200
         static let pressureCoef = 0.7500638
         static let weekDayError = 2
+        static let isDay = 1
+        static let maxNumberOfSearchResults = 5
+        static let twelveHourWeatherFormatterLastIndex = 36
+        static let zeroIndex = 0
     }
     
     //MARK: - Colors
@@ -266,5 +287,7 @@ enum Constants {
         static let errorViewTitle = UIFont.systemFont(ofSize: 17, weight: .semibold)
         static let errorViewSubTitle =  UIFont.systemFont(ofSize: 16, weight: .regular)
         static let tryAgainButton =  UIFont.systemFont(ofSize: 16, weight: .semibold)
+        static let hourlyCellTemperatureLabel = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        static let hourlyCellTimeLabel = UIFont.systemFont(ofSize: 16, weight: .regular)
     }
 }

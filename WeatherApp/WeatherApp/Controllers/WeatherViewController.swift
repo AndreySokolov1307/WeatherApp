@@ -22,7 +22,7 @@ class WeatherViewController: UIViewController {
     private let userHaveSeenDeniedAlert = UserDefaults.standard.bool(forKey: Constants.strings.haveSeenDeniedAlertKey)
     private let twelveHoursFormatter: TwelveHoursWeatherFormatter? = nil
     private var twelveHoursData: TwelveHoursWeather? = nil
-    private var weather: Weaher? {
+    private var weather: Weather? {
         didSet {
             isLoading = false
             setupTwelveHoursData()
@@ -168,7 +168,7 @@ extension WeatherViewController: UICollectionViewDataSource {
     private func numberOfItems(in section: Section) -> Int {
         switch section {
         case .main: return Constants.layout.numberOfItemsMainSection
-        case .hourly: return 12
+        case .hourly: return Constants.layout.numberOfItemsHourlySection
         case .detail: return Constants.layout.numberOfItemsDetailSection
         case .sevenDays:
             if let weather = weather {

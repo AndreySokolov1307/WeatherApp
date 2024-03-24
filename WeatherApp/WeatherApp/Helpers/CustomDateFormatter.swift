@@ -17,7 +17,7 @@ class CustomDateFormatter {
     }()
     
     func dateWithTime(from string: String) -> Date {
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
+        dateFormatter.dateFormat = Constants.strings.dateWithTimeFormat
         return dateFormatter.date(from: string) ?? Date()
     }
     
@@ -42,17 +42,17 @@ class CustomDateFormatter {
     }
     
     func time(from string: String) -> String {
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
+        dateFormatter.dateFormat = Constants.strings.dateWithTimeFormat
         if let date = dateFormatter.date(from: string) {
-            dateFormatter.dateFormat = "HH:mm"
+            dateFormatter.dateFormat = Constants.strings.timeFormat
             return dateFormatter.string(from: date)
         } else {
-            return "-"
+            return Constants.strings.line
         }
     }
     
     func time(from date: Date) -> String {
-        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.dateFormat = Constants.strings.timeFormat
         return dateFormatter.string(from: date)
     }
     

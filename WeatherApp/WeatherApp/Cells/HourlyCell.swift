@@ -8,7 +8,7 @@
 import UIKit
 
 class HourlyCell: UICollectionViewCell {
-    static let reuseIdentifier = "HourlyCell"
+    static let reuseIdentifier = Constants.strings.hourlyCellReuseIdentifier
     
     @UseAutolayout private var vStack: UIStackView = .style {
         $0.axis = .vertical
@@ -17,7 +17,7 @@ class HourlyCell: UICollectionViewCell {
     }
     
     let timeLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        $0.font = Constants.fonts.hourlyCellTimeLabel
     }
     
     let imageView: UIImageView = .style {  
@@ -25,7 +25,7 @@ class HourlyCell: UICollectionViewCell {
     }
     
     let temperatureLabel: UILabel = .style {
-        $0.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        $0.font = Constants.fonts.hourlyCellTemperatureLabel
     }
     
     override init(frame: CGRect) {

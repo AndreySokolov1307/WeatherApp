@@ -34,19 +34,19 @@ extension WeatherViewController {
                 
                 return section
             case .hourly:
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let itemSize = Constants.layout.hourlySectionItemSize
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.17), heightDimension: .fractionalHeight(0.15))
+                let groupSize = Constants.layout.hourlySectionGroupSize
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                                subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuous
-                section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 18, trailing: 8)
+                section.contentInsets = Constants.layout.hourlySectionContentInsets
                 
                 let background = NSCollectionLayoutDecorationItem.background(elementKind: SectionBackgroundView.kindIdenifier)
-                background.contentInsets.bottom = 8
+                background.contentInsets.bottom = Constants.layout.hourlySectionBackgroundBottomInset
                 
                 section.decorationItems = [background]
                 

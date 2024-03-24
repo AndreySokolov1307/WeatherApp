@@ -62,7 +62,7 @@ class DetailCell: UICollectionViewCell {
         ])
     }
     
-    func configure(with weather: Weaher) {
+    func configure(with weather: Weather) {
         windInfoView.infoLabel.text = weather.current.windInfoString
         humidityInfoView.infoLabel.text = weather.current.humidityString
         pressureInfoView.infoLabel.text = weather.current.pressureString

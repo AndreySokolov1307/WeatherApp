@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Weaher: Codable, Hashable {
+struct Weather: Codable, Hashable {
     let current: CurrentWeather
     let daily: DailyWeather
     let hourly: Hourly

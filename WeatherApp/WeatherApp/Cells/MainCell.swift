@@ -51,7 +51,7 @@ class MainCell: UICollectionViewCell {
         ])
     }
     
-    func configure(with currentWeather: Weaher.CurrentWeather) {
+    func configure(with currentWeather: Weather.CurrentWeather) {
         temperatureLabel.text = currentWeather.temperatureString
         apparentTemperatureLabel.text = Constants.strings.apparentTemperature + Constants.strings.space + currentWeather.apparentTemperatureString
         weatherCodeLabel.text = currentWeather.weatherCodeString

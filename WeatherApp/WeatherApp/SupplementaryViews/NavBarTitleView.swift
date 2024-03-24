@@ -38,7 +38,7 @@ class NavBarTitleView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with location: CLLocation, weather: Weaher?) async throws {
+    func configure(with location: CLLocation, weather: Weather?) async throws {
         titleLabel.text = try await LocationFormatter.shared.cityName(location: location)
         weatherImageView.image = weather?.current.weatherImage
         chevronImageView.isHidden = false
