@@ -14,11 +14,11 @@ struct SingleDay {
     let temperaturesMin: Double
     
     var dayOfTheWeekString: String {
-        CustomDateFormatter.shared.dayOfTheWeek(from: date)
+        CustomDateFormatter.shared.dayOfTheWeek(from: date).capitalized
     }
     
     var dateString: String {
-        CustomDateFormatter.shared.formattedString(from: date)
+        CustomDateFormatter.shared.formattedString(from: date).capitalized
     }
     
     var maxRemperatureString: String {

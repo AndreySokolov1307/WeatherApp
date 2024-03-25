@@ -55,7 +55,7 @@ enum Constants {
         static let windTitle = "Ветер"
         static let humidityTitle = "Влажность"
         static let pressureTitle = "Давление"
-        static let uvIndexTitle = "UV индекс"
+        static let uvIndexTitle = "УФ индекс"
         static let mainCellReuseIdentifier = "MainCell"
         static let detailCellReuseIdentifier = "DetailCell"
         static let dailyCellReuseIdentifier = "DailyCell"
@@ -80,6 +80,7 @@ enum Constants {
         static let standartDateFormat = "yyyy-MM-dd"
         static let dayDateFormat = "EEEE"
         static let dayError = "День недели"
+        static let dayMonthDateFormat = "d MMMM"
         static let monthDayDateFormat = "MMMM d"
         static let monthError = "Месяц число"
         static let searchResultsFile = "searchResults"
@@ -98,6 +99,7 @@ enum Constants {
         static let dateWithTimeFormat = "yyyy-MM-dd'T'HH:mm"
         static let timeFormat = "HH:mm"
         static let line = "-"
+        static let englishLocaleIdentifier = "en"
     }
     
     //MARK: - Layout
@@ -183,7 +185,7 @@ enum Constants {
         static let errorViewVStackCustomSpacing: CGFloat = 8
         static let errorViewImageViewSide: CGFloat = 56
         static let numberOfItemsHourlySection = 12
-        static let loadingHourlyCellCircleViewSide: CGFloat = 24
+        static let loadingHourlyCellCircleViewSide: CGFloat = 34
         static let loadingHourlyCellTitleViewWidth: CGFloat = 24
         static let loadingHourlyCellTitleViewHeight: CGFloat = 16
         static let loadingHourlyCellSubtitleViewWidth: CGFloat = 24

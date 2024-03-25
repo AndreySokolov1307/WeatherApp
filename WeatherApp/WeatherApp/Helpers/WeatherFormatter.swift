@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WeatherFormatter {
+final class WeatherFormatter {
     static let shared = WeatherFormatter()
     
     private let formatter:  MeasurementFormatter = {

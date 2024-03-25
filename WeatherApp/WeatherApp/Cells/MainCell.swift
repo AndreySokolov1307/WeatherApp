@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainCell: UICollectionViewCell {
+final class MainCell: UICollectionViewCell {
     static let reuseIdentifier = Constants.strings.mainCellReuseIdentifier
     
     @UseAutolayout private var vStack: UIStackView  = .style {

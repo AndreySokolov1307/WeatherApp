@@ -8,7 +8,7 @@
 import UIKit
 import CoreLocation
 
-class NavBarTitleView : UIView {
+final class NavBarTitleView : UIView {
     
     let titleLabel: UILabel = .style {
         $0.font = Constants.fonts.navBarTitle

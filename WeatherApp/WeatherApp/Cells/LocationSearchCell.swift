@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-class LocationSearchCell: UITableViewCell {
+final class LocationSearchCell: UITableViewCell {
     static let reuseIdentifier = Constants.strings.locationSearchCellReuseIdentifier
     
     @UseAutolayout var selectionImageView: UIImageView = .style {

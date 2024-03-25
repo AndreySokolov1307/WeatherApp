@@ -8,7 +8,7 @@
 import UIKit
 import CoreLocation
 
-class WeatherViewController: UIViewController {
+final class WeatherViewController: UIViewController {
     
     private lazy var weatherView = WeatherView()
     private lazy var networkService = NetworkService()
@@ -191,7 +191,9 @@ extension WeatherViewController: UICollectionViewDataSource {
                 return cell
             } else {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCell.reuseIdentifier, for: indexPath) as! MainCell
-                cell.configure(with: weather!.current)
+                if let weather = weather {
+                    cell.configure(with: weather.current)
+                }
                 return cell
             }
         case .hourly:
@@ -207,7 +209,9 @@ extension WeatherViewController: UICollectionViewDataSource {
             }
         case .detail:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCell.reuseIdentifier, for: indexPath) as! DetailCell
-                cell.configure(with: weather!)
+                if let weather = weather {
+                    cell.configure(with: weather)
+                }
                 return cell
         case .sevenDays:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DailyCell.reuseIdentifier, for: indexPath) as! DailyCell

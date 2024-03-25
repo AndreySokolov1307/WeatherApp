@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CustomDateFormatter {
+final class CustomDateFormatter {
     static let shared = CustomDateFormatter()
     
     private let dateFormatter: DateFormatter = {
@@ -59,7 +59,12 @@ class CustomDateFormatter {
     func formattedString(from string: String) -> String {
         dateFormatter.dateFormat = Constants.strings.standartDateFormat
         if let date = dateFormatter.date(from: string) {
-            dateFormatter.dateFormat = Constants.strings.monthDayDateFormat
+            switch Locale.current.language.languageCode?.identifier {
+            case Constants.strings.englishLocaleIdentifier :
+                dateFormatter.dateFormat = Constants.strings.monthDayDateFormat
+            default :
+                dateFormatter.dateFormat = Constants.strings.dayMonthDateFormat
+            }
             return dateFormatter.string(from: date)
         } else {
             return Constants.strings.monthError

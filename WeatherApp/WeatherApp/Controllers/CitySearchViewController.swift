@@ -12,7 +12,7 @@ protocol CitySearchTableViewControllerDelegate: AnyObject {
     func didSelectRegion(with location: CLLocation )
 }
 
-class CitySearchViewController: UIViewController {
+final class CitySearchViewController: UIViewController {
     
     private lazy var citySearchView = CitySearchView()
     private var searchCache = SearchCache()
@@ -67,7 +67,6 @@ class CitySearchViewController: UIViewController {
         setupDoneButton()
         setupSearchCompleter()
         loadSearchResults()
-     
     }
     
     override func viewDidDisappear(_ animated: Bool) {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SearchCache {
+final class SearchCache {
     
     private(set) var searchResults: [SearchResult] = []
      

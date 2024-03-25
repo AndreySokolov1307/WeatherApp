@@ -13,7 +13,7 @@ class ErrorView: UIView {
         $0.contentMode = .scaleAspectFit
         $0.tintColor = Constants.colors.lightBlue2
     }
-    @UseAutolayout var vStack: UIStackView = .style {
+    @UseAutolayout private var vStack: UIStackView = .style {
         $0.axis = .vertical
         $0.alignment = .center
         $0.distribution = .fill

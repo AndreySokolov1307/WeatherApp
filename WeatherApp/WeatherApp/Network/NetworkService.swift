@@ -13,7 +13,7 @@ enum NetworkError: Error {
     case unableToParseJSON
 }
 
-class NetworkService {
+final class NetworkService {
     
     private let baseURLString = Constants.strings.baseURLString
     

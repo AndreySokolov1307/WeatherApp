@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UserLocationCell: UITableViewCell {
+final class UserLocationCell: UITableViewCell {
     static let reuseIdentifier = Constants.strings.userLocationCellReuseIdentifier
     
     @UseAutolayout private var detailInfoView: DetailInfoView = .style {
